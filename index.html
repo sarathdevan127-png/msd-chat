@@ -1,107 +1,186 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#075e54">
   <title>MSD Chat</title>
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #efeae2;
-      color: #222;
+      margin: 0; font-family: Arial, sans-serif;
+      background: #e9edef; color: #202c33;
     }
     header {
-      background: #075e54;
-      color: white;
-      padding: 18px;
-      font-size: 23px;
-      font-weight: bold;
+      background: #075e54; color: white;
+      padding: 18px; font-size: 25px; font-weight: bold;
     }
-    .subtitle {
-      font-size: 12px;
-      font-weight: normal;
-      margin-top: 5px;
+    main { max-width: 600px; margin: auto; padding: 16px; }
+    .panel {
+      background: white; padding: 18px; border-radius: 14px;
+      margin-bottom: 15px;
     }
-    .notice {
-      margin: 15px;
-      padding: 15px;
-      background: white;
-      border-radius: 12px;
-      line-height: 1.5;
+    input, button {
+      width: 100%; padding: 13px; margin-top: 10px;
+      border-radius: 8px; font-size: 16px;
     }
-    .chat-list { padding: 0 15px 20px; }
-    .chat {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 15px 5px;
-      background: white;
-      border-bottom: 1px solid #eee;
+    input { border: 1px solid #bbb; }
+    button {
+      border: 0; background: #128c7e; color: white;
+      font-weight: bold; cursor: pointer;
     }
-    .avatar {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #128c7e;
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
+    button.secondary { background: #54656f; }
+    #messages {
+      height: 300px; overflow-y: auto;
+      background: #f7f7f7; padding: 10px;
+      border-radius: 8px;
     }
-    .details { flex: 1; }
-    .details strong { display: block; margin-bottom: 6px; }
-    .details span { color: #666; font-size: 13px; }
-    .badge {
-      font-size: 11px;
-      color: #075e54;
-      background: #d8f5e8;
-      padding: 5px 8px;
-      border-radius: 10px;
+    .message {
+      background: #d9fdd3; padding: 10px;
+      margin: 8px 0; border-radius: 9px;
+      overflow-wrap: anywhere;
     }
-    footer {
-      padding: 18px;
-      text-align: center;
-      color: #666;
-      font-size: 12px;
-    }
+    .muted { color: #667781; font-size: 13px; }
+    #status { white-space: pre-wrap; }
   </style>
 </head>
 <body>
-  <header>
-    MSD Chat
-    <div class="subtitle">Connect with everyone</div>
-  </header>
-
-  <section class="notice">
-    <strong>Welcome to MSD Chat! 👋</strong><br>
-    Your own messaging platform starts here.
-    We're setting up the features step by step.
+<header>💬 MSD Chat</header>
+<main>
+  <section class="panel" id="authPanel">
+    <h2>Welcome!</h2>
+    <p>Create an account or sign in.</p>
+    <input id="email" type="email" placeholder="Email address"
+      autocomplete="email">
+    <input id="password" type="password" placeholder="Password (6+ characters)"
+      autocomplete="current-password">
+    <button id="register">Create account</button>
+    <button id="login" class="secondary">Sign in</button>
   </section>
 
-  <main class="chat-list">
-    <div class="chat">
-      <div class="avatar">M</div>
-      <div class="details">
-        <strong>MSD Chat Support</strong>
-        <span>Your messaging app is ready for the next setup step.</span>
-      </div>
-      <span class="badge">NEW</span>
-    </div>
-    <div class="chat">
-      <div class="avatar">👥</div>
-      <div class="details">
-        <strong>Community</strong>
-        <span>Meet people and connect.</span>
-      </div>
-    </div>
-  </main>
+  <section class="panel" id="chatPanel" hidden>
+    <p>Signed in as <strong id="who"></strong></p>
+    <button id="logout" class="secondary">Sign out</button>
+    <h2>Community chat</h2>
+    <p class="muted">Messages are visible to signed-in users.</p>
+    <div id="messages" aria-live="polite"></div>
+    <form id="sendForm">
+      <input id="messageInput" maxlength="2000"
+        placeholder="Type a message..." required>
+      <button type="submit">Send message</button>
+    </form>
+  </section>
+  <p id="status" role="status"></p>
+</main>
 
-  <footer>
-    MSD Chat · Version 1.0
-  </footer>
+<script type="module">
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword,
+  signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, query, orderBy,
+  limit, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+// Replace these example values with your Firebase web app config.
+const firebaseConfig = {
+  apiKey: "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
+  authDomain: "msd-chat-18e3a.firebaseapp.com",
+  projectId: "msd-chat-18e3a",
+  storageBucket: "msd-chat-18e3a.firebasestorage.app",
+  messagingSenderId: "159171434081",
+  appId: "1:159171434081:web:9997129ce58a5af47abc20",
+};
+
+const status = document.getElementById("status");
+const showStatus = (message) => { status.textContent = message; };
+
+try {
+  if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
+    throw new Error("Add your real Firebase config values before using MSD Chat.");
+  }
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const messages = document.getElementById("messages");
+  let stopMessages = null;
+
+  document.getElementById("register").onclick = async () => {
+    try {
+      await createUserWithEmailAndPassword(
+        auth, email.value.trim(), password.value
+      );
+      showStatus("Account created!");
+    } catch (e) { showStatus(e.message); }
+  };
+
+  document.getElementById("login").onclick = async () => {
+    try {
+      await signInWithEmailAndPassword(
+        auth, email.value.trim(), password.value
+      );
+      showStatus("Signed in!");
+    } catch (e) { showStatus(e.message); }
+  };
+
+  document.getElementById("logout").onclick = () => signOut(auth);
+
+  onAuthStateChanged(auth, user => {
+    document.getElementById("authPanel").hidden = !!user;
+    document.getElementById("chatPanel").hidden = !user;
+    document.getElementById("who").textContent = user?.email || "";
+    if (stopMessages) stopMessages();
+    messages.replaceChildren();
+
+    if (user) {
+      const q = query(collection(db, "messages"),
+        orderBy("createdAt", "asc"), limit(100));
+      stopMessages = onSnapshot(q, snapshot => {
+        messages.replaceChildren();
+        snapshot.forEach(item => {
+          const data = item.data();
+          const div = document.createElement("div");
+          div.className = "message";
+          const sender = document.createElement("strong");
+          sender.textContent = data.senderEmail || "User";
+          const body = document.createElement("div");
+          body.textContent = data.text || "";
+          div.append(sender, body);
+          messages.append(div);
+        });
+        messages.scrollTop = messages.scrollHeight;
+      }, e => showStatus("Chat error: " + e.message));
+    }
+  });
+
+  document.getElementById("sendForm").onsubmit = async event => {
+    event.preventDefault();
+    const user = auth.currentUser;
+    const field = document.getElementById("messageInput");
+    const text = field.value.trim();
+    if (!user || !text) return;
+    try {
+      await addDoc(collection(db, "messages"), {
+        senderId: user.uid,
+        senderEmail: user.email || "User",
+        text,
+        createdAt: serverTimestamp()
+      });
+      field.value = "";
+      showStatus("");
+    } catch (e) { showStatus("Could not send: " + e.message); }
+  };
+} catch (e) {
+  showStatus("Setup needed: " + e.message);
+}
+</script>
 </body>
 </html>
+
