@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#075e54">
+  <title>MSD Chat</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #efeae2;
+      color: #222;
+    }
+    header {
+      background: #075e54;
+      color: white;
+      padding: 18px;
+      font-size: 23px;
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 12px;
+      font-weight: normal;
+      margin-top: 5px;
+    }
+    .notice {
+      margin: 15px;
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      line-height: 1.5;
+    }
+    .chat-list { padding: 0 15px 20px; }
+    .chat {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 5px;
+      background: white;
+      border-bottom: 1px solid #eee;
+    }
+    .avatar {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #128c7e;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+    .details { flex: 1; }
+    .details strong { display: block; margin-bottom: 6px; }
+    .details span { color: #666; font-size: 13px; }
+    .badge {
+      font-size: 11px;
+      color: #075e54;
+      background: #d8f5e8;
+      padding: 5px 8px;
+      border-radius: 10px;
+    }
+    footer {
+      padding: 18px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    MSD Chat
+    <div class="subtitle">Connect with everyone</div>
+  </header>
 
+  <section class="notice">
+    <strong>Welcome to MSD Chat! 👋</strong><br>
+    Your own messaging platform starts here.
+    We're setting up the features step by step.
+  </section>
+
+  <main class="chat-list">
+    <div class="chat">
+      <div class="avatar">M</div>
+      <div class="details">
+        <strong>MSD Chat Support</strong>
+        <span>Your messaging app is ready for the next setup step.</span>
+      </div>
+      <span class="badge">NEW</span>
+    </div>
+    <div class="chat">
+      <div class="avatar">👥</div>
+      <div class="details">
+        <strong>Community</strong>
+        <span>Meet people and connect.</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    MSD Chat · Version 1.0
+  </footer>
+</body>
+</html>
