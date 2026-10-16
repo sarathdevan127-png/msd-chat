@@ -2,93 +2,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#075e54">
-  <title>MSD Chat</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: Arial, sans-serif;
-      background: #e9edef; color: #202c33;
-    }
-    header {
-      background: #075e54; color: white;
-      padding: 18px; font-size: 25px; font-weight: bold;
-    }
-    main { max-width: 600px; margin: auto; padding: 16px; }
-    .panel {
-      background: white; padding: 18px; border-radius: 14px;
-      margin-bottom: 15px;
-    }
-    input, button {
-      width: 100%; padding: 13px; margin-top: 10px;
-      border-radius: 8px; font-size: 16px;
-    }
-    input { border: 1px solid #bbb; }
-    button {
-      border: 0; background: #128c7e; color: white;
-      font-weight: bold; cursor: pointer;
-    }
-    button.secondary { background: #54656f; }
-    #messages {
-      height: 300px; overflow-y: auto;
-      background: #f7f7f7; padding: 10px;
-      border-radius: 8px;
-    }
-    .message {
-      background: #d9fdd3; padding: 10px;
-      margin: 8px 0; border-radius: 9px;
-      overflow-wrap: anywhere;
-    }
-    .muted { color: #667781; font-size: 13px; }
-    #status { white-space: pre-wrap; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#075e54">
+<title>MSD Chat</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#e9edef;color:#202c33}
+header{background:#075e54;color:white;padding:18px;font-size:24px;font-weight:bold}
+main{max-width:650px;margin:auto;padding:14px}
+.panel{background:white;padding:15px;border-radius:12px;margin-bottom:14px}
+input,button{width:100%;padding:12px;margin-top:9px;border-radius:8px;font-size:16px}
+input{border:1px solid #bbb}
+button{border:0;background:#128c7e;color:white;font-weight:bold;cursor:pointer}
+.secondary{background:#54656f}
+.user{background:#f0f2f5;padding:12px;margin:7px 0;border-radius:8px;cursor:pointer;overflow-wrap:anywhere}
+.user button{margin-top:0}
+#communityMessages,#privateMessages{height:230px;overflow-y:auto;background:#f7f7f7;padding:8px;border-radius:8px}
+.message{background:#d9fdd3;padding:9px;margin:7px 0;border-radius:9px;overflow-wrap:anywhere}
+.small{font-size:13px;color:#667781}
+h2{font-size:20px}
+[hidden]{display:none!important}
+</style>
 </head>
 <body>
 <header>💬 MSD Chat</header>
 <main>
-  <section class="panel" id="authPanel">
-    <h2>Welcome!</h2>
-    <p>Create an account or sign in.</p>
-    <input id="email" type="email" placeholder="Email address"
-      autocomplete="email">
-    <input id="password" type="password" placeholder="Password (6+ characters)"
-      autocomplete="current-password">
-    <button id="register">Create account</button>
-    <button id="login" class="secondary">Sign in</button>
-  </section>
+<section class="panel" id="authPanel">
+<h2>Welcome to MSD Chat</h2>
+<p>Create an account or sign in.</p>
+<input id="email" type="email" placeholder="Email address" autocomplete="email">
+<input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+<button id="register">Create account</button>
+<button id="login" class="secondary">Sign in</button>
+</section>
 
-  <section class="panel" id="chatPanel" hidden>
-    <p>Signed in as <strong id="who"></strong></p>
-    <button id="logout" class="secondary">Sign out</button>
-    <h2>Community chat</h2>
-    <p class="muted">Messages are visible to signed-in users.</p>
-    <div id="messages" aria-live="polite"></div>
-    <form id="sendForm">
-      <input id="messageInput" maxlength="2000"
-        placeholder="Type a message..." required>
-      <button type="submit">Send message</button>
-    </form>
-  </section>
-  <p id="status" role="status"></p>
+<div id="appPanel" hidden>
+<section class="panel">
+<p>Signed in as <strong id="who"></strong></p>
+<button id="logout" class="secondary">Sign out</button>
+</section>
+
+<section class="panel">
+<h2>👥 Private Chats</h2>
+<p class="small">Select a user to open a private conversation.</p>
+<div id="users">Loading users...</div>
+</section>
+
+<section class="panel" id="privatePanel" hidden>
+<h2 id="privateTitle">Private conversation</h2>
+<div id="privateMessages" aria-live="polite"></div>
+<form id="privateForm">
+<input id="privateInput" maxlength="2000" placeholder="Write a private message..." required>
+<button type="submit">Send privately</button>
+</form>
+<button id="closePrivate" class="secondary">Close conversation</button>
+</section>
+
+<section class="panel">
+<h2>🌎 Community Chat</h2>
+<p class="small">Messages here are visible to all signed-in users.</p>
+<div id="communityMessages" aria-live="polite"></div>
+<form id="communityForm">
+<input id="communityInput" maxlength="2000" placeholder="Write a community message..." required>
+<button type="submit">Send message</button>
+</form>
+</section>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
 </main>
 
 <script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {
   getAuth, createUserWithEmailAndPassword,
   signInWithEmailAndPassword, onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import {
-  getFirestore, collection, addDoc, query, orderBy,
-  limit, onSnapshot, serverTimestamp
+  getFirestore, collection, doc, setDoc, addDoc,
+  query, orderBy, limit, onSnapshot, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-// Replace these example values with your Firebase web app config.
+// IMPORTANT: Insert your own six Firebase config values below.
 const firebaseConfig = {
-  apiKey: "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
+  apiKey: "AIzaSyBojogl1goi2_zXK-B8A29cnIRM5pn3DjY",
   authDomain: "msd-chat-18e3a.firebaseapp.com",
   projectId: "msd-chat-18e3a",
   storageBucket: "msd-chat-18e3a.firebasestorage.app",
@@ -96,76 +93,209 @@ const firebaseConfig = {
   appId: "1:159171434081:web:9997129ce58a5af47abc20",
 };
 
-const status = document.getElementById("status");
-const showStatus = (message) => { status.textContent = message; };
+const $ = id => document.getElementById(id);
+const status = $("status");
+const showStatus = message => { status.textContent = message; };
 
-try {
-  if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
-    throw new Error("Add your real Firebase config values before using MSD Chat.");
-  }
-
+if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
+  showStatus("Setup needed: insert your six Firebase configuration values.");
+} else {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const messages = document.getElementById("messages");
-  let stopMessages = null;
 
-  document.getElementById("register").onclick = async () => {
+  let stopCommunity = null;
+  let stopUsers = null;
+  let stopPrivate = null;
+  let selectedUser = null;
+
+  function stopListener(name) {
+    if (name === "community" && stopCommunity) stopCommunity();
+    if (name === "users" && stopUsers) stopUsers();
+    if (name === "private" && stopPrivate) stopPrivate();
+    if (name === "community") stopCommunity = null;
+    if (name === "users") stopUsers = null;
+    if (name === "private") stopPrivate = null;
+  }
+
+  function renderMessages(container, snapshot) {
+    container.replaceChildren();
+    snapshot.forEach(item => {
+      const data = item.data();
+      const div = document.createElement("div");
+      div.className = "message";
+      const sender = document.createElement("strong");
+      sender.textContent = (data.senderEmail || "User") + ": ";
+      const body = document.createElement("span");
+      body.textContent = data.text || "";
+      div.append(sender, body);
+      container.append(div);
+    });
+    container.scrollTop = container.scrollHeight;
+  }
+
+  $("register").onclick = async () => {
     try {
       await createUserWithEmailAndPassword(
-        auth, email.value.trim(), password.value
+        auth, $("email").value.trim(), $("password").value
       );
       showStatus("Account created!");
     } catch (e) { showStatus(e.message); }
   };
 
-  document.getElementById("login").onclick = async () => {
+  $("login").onclick = async () => {
     try {
       await signInWithEmailAndPassword(
-        auth, email.value.trim(), password.value
+        auth, $("email").value.trim(), $("password").value
       );
       showStatus("Signed in!");
     } catch (e) { showStatus(e.message); }
   };
 
-  document.getElementById("logout").onclick = () => signOut(auth);
+  $("logout").onclick = async () => {
+    try { await signOut(auth); }
+    catch (e) { showStatus(e.message); }
+  };
 
-  onAuthStateChanged(auth, user => {
-    document.getElementById("authPanel").hidden = !!user;
-    document.getElementById("chatPanel").hidden = !user;
-    document.getElementById("who").textContent = user?.email || "";
-    if (stopMessages) stopMessages();
-    messages.replaceChildren();
+  onAuthStateChanged(auth, async user => {
+    stopListener("community");
+    stopListener("users");
+    stopListener("private");
+    selectedUser = null;
+    $("privatePanel").hidden = true;
+    $("authPanel").hidden = !!user;
+    $("appPanel").hidden = !user;
+    $("communityMessages").replaceChildren();
+    $("users").replaceChildren();
 
-    if (user) {
-      const q = query(collection(db, "messages"),
-        orderBy("createdAt", "asc"), limit(100));
-      stopMessages = onSnapshot(q, snapshot => {
-        messages.replaceChildren();
+    if (!user) {
+      $("who").textContent = "";
+      return;
+    }
+
+    $("who").textContent = user.email || "User";
+
+    try {
+      // Register this account in the user directory.
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        email: user.email || "User",
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      // Community chat
+      const communityQuery = query(
+        collection(db, "messages"),
+        orderBy("createdAt", "asc"),
+        limit(100)
+      );
+      stopCommunity = onSnapshot(communityQuery, snapshot => {
+        renderMessages($("communityMessages"), snapshot);
+      }, e => showStatus("Community chat error: " + e.message));
+
+      // Registered users directory
+      stopUsers = onSnapshot(collection(db, "users"), snapshot => {
+        const box = $("users");
+        box.replaceChildren();
+        let found = false;
+
         snapshot.forEach(item => {
-          const data = item.data();
-          const div = document.createElement("div");
-          div.className = "message";
-          const sender = document.createElement("strong");
-          sender.textContent = data.senderEmail || "User";
-          const body = document.createElement("div");
-          body.textContent = data.text || "";
-          div.append(sender, body);
-          messages.append(div);
+          const person = item.data();
+          if (!person.uid || person.uid === user.uid) return;
+          found = true;
+
+          const row = document.createElement("div");
+          row.className = "user";
+          const label = document.createElement("div");
+          label.textContent = person.email || "MSD Chat user";
+          const openButton = document.createElement("button");
+          openButton.textContent = "Open private chat";
+          openButton.onclick = () => openPrivateChat(
+            user, person.uid, person.email || "MSD Chat user"
+          );
+          row.append(label, openButton);
+          box.append(row);
         });
-        messages.scrollTop = messages.scrollHeight;
-      }, e => showStatus("Chat error: " + e.message));
+
+        if (!found) {
+          box.textContent = "No other registered users found yet. Ask another user to sign in to MSD Chat once.";
+        }
+      }, e => showStatus("User list error: " + e.message));
+
+    } catch (e) {
+      showStatus("Setup error: " + e.message);
     }
   });
 
-  document.getElementById("sendForm").onsubmit = async event => {
+  async function openPrivateChat(user, otherUid, otherEmail) {
+    stopListener("private");
+    selectedUser = { uid: otherUid, email: otherEmail };
+    $("privatePanel").hidden = false;
+    $("privateTitle").textContent = "Private chat with " + otherEmail;
+    $("privateMessages").replaceChildren();
+    showStatus("Opening private chat...");
+
+    try {
+      const members = [user.uid, otherUid].sort();
+      const chatId = members.join("__");
+      const chatRef = doc(db, "chats", chatId);
+
+      // Create the conversation if needed, or update its timestamp.
+      await setDoc(chatRef, {
+        members,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      const privateQuery = query(
+        collection(db, "chats", chatId, "messages"),
+        orderBy("createdAt", "asc"),
+        limit(100)
+      );
+
+      stopPrivate = onSnapshot(privateQuery, snapshot => {
+        renderMessages($("privateMessages"), snapshot);
+        showStatus("");
+      }, e => showStatus("Private chat error: " + e.message));
+    } catch (e) {
+      showStatus("Could not open private chat: " + e.message);
+    }
+  }
+
+  $("privateForm").onsubmit = async event => {
     event.preventDefault();
     const user = auth.currentUser;
-    const field = document.getElementById("messageInput");
-    const text = field.value.trim();
+    const text = $("privateInput").value.trim();
+    if (!user || !selectedUser || !text) return;
+
+    const members = [user.uid, selectedUser.uid].sort();
+    const chatId = members.join("__");
+
+    try {
+      await addDoc(collection(db, "chats", chatId, "messages"), {
+        senderId: user.uid,
+        senderEmail: user.email || "User",
+        text,
+        createdAt: serverTimestamp()
+      });
+      $("privateInput").value = "";
+      showStatus("");
+    } catch (e) {
+      showStatus("Could not send private message: " + e.message);
+    }
+  };
+
+  $("closePrivate").onclick = () => {
+    stopListener("private");
+    selectedUser = null;
+    $("privatePanel").hidden = true;
+  };
+
+  $("communityForm").onsubmit = async event => {
+    event.preventDefault();
+    const user = auth.currentUser;
+    const text = $("communityInput").value.trim();
     if (!user || !text) return;
+
     try {
       await addDoc(collection(db, "messages"), {
         senderId: user.uid,
@@ -173,14 +303,15 @@ try {
         text,
         createdAt: serverTimestamp()
       });
-      field.value = "";
+      $("communityInput").value = "";
       showStatus("");
-    } catch (e) { showStatus("Could not send: " + e.message); }
+    } catch (e) {
+      showStatus("Could not send community message: " + e.message);
+    }
   };
-} catch (e) {
-  showStatus("Setup needed: " + e.message);
 }
 </script>
 </body>
 </html>
+
 
