@@ -667,6 +667,19 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
   };
 }
 </script>
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("./sw.js")
+        .then(function () {
+          console.log("MSD Chat service worker registered!");
+        })
+        .catch(function (error) {
+          console.error("Service worker registration failed:", error);
+        });
+    });
+  }
+</script>
 </body>
 </html>
 
