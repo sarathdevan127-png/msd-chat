@@ -1,1 +1,11 @@
-
+{
+  "name": "MSD Chat",
+  "short_name": "MSD Chat",
+  "description": "Connect and chat with your people.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080a18",
+  "theme_color": "#101225"
+}
