@@ -391,6 +391,73 @@ input::placeholder {
   color: #a5a9c5 !important;
   opacity: 1;
 }
+  /* ===== MSD CHAT FUTURISTIC UPGRADE ===== */
+
+:root {
+  --msd-bg: #080a18;
+  --msd-card: rgba(20, 24, 48, 0.92);
+  --msd-purple: #a855f7;
+  --msd-blue: #22d3ee;
+  --msd-text: #f8fafc;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top left, #202052 0%, transparent 45%),
+    radial-gradient(ellipse at bottom right, #102c45 0%, transparent 40%),
+    var(--msd-bg) !important;
+  color: var(--msd-text) !important;
+}
+
+h1, h2, h3 {
+  color: #ffffff;
+  letter-spacing: 0.4px;
+}
+
+button {
+  border: 1px solid rgba(168, 85, 247, 0.45) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.22);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+input,
+textarea,
+select {
+  background: #10152b !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid #343b63 !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a5aecb !important;
+  -webkit-text-fill-color: #a5aecb !important;
+}
+
+a {
+  color: var(--msd-blue);
+}
+
+button:hover {
+  box-shadow: 0 0 22px rgba(168, 85, 247, 0.4);
+}
+
+hr {
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+/* ===== END MSD CHAT UPGRADE ===== */
 </style>
 </head>
 <body>
