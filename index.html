@@ -690,6 +690,39 @@ input[type="password"] {
   background-color: #101225 !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+  /* MSD CHAT — FIX WHITE TYPING AREAS */
+
+input,
+input[type="email"],
+input[type="password"],
+input[type="text"],
+textarea,
+#email,
+#password,
+#privateInput,
+#communityInput {
+background-color: #0a1221 !important;
+color: #ffffff !important;
+-webkit-text-fill-color: #ffffff !important;
+caret-color: #5eead4 !important;
+border: 1px solid #30415a !important;
+border-radius: 14px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+color: #94a3b8 !important;
+-webkit-text-fill-color: #94a3b8 !important;
+opacity: 1 !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+-webkit-text-fill-color: #ffffff !important;
+-webkit-box-shadow: 0 0 0 1000px #0a1221 inset !important;
+transition: background-color 9999s ease-out;
+}
 </style>
 </head>
 <body>
