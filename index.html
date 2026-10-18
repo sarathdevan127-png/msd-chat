@@ -723,6 +723,54 @@ input:-webkit-autofill:focus {
 -webkit-box-shadow: 0 0 0 1000px #0a1221 inset !important;
 transition: background-color 9999s ease-out;
 }
+  /* MSD CHAT — FIX USER LIST LAYOUT */
+
+.user {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.user > div {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  white-space: normal !important;
+}
+
+.user button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 125px !important;
+  max-width: 48% !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  white-space: normal !important;
+  font-size: 13px !important;
+}
+
+@media (max-width: 480px) {
+  .user {
+    gap: 8px !important;
+    padding: 12px !important;
+  }
+
+  .user button {
+    min-width: 110px !important;
+    max-width: 46% !important;
+    padding: 9px 8px !important;
+    font-size: 12px !important;
+  }
+}
 </style>
 </head>
 <body>
