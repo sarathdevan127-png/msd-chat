@@ -1,863 +1,142 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#101225">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#075e54">
-<title>MSD Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101225">
+  <title>MSD Chat</title>
 <style>
-
-:root {
-  color-scheme: dark;
-  --primary: #14b8a6;
-  --primary-dark: #0d9488;
-  --accent: #60a5fa;
-  --page: #080d18;
-  --surface: #111a2b;
-  --border: #26344a;
-  --ink: #f1f5f9;
-  --muted: #94a3b8;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  min-height: 100%;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-  line-height: 1.6;
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse at 10% 0%, #123c4b 0%, transparent 38%),
-    radial-gradient(ellipse at 100% 25%, #20204a 0%, transparent 35%),
-    var(--page);
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 17px 20px;
-  background: rgba(8, 13, 24, 0.88);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-  color: #fff;
-  font-size: 24px;
-  font-weight: 850;
-  letter-spacing: -0.7px;
-  box-shadow: 0 8px 28px #0003;
-}
-
-main {
-  width: 100%;
-  max-width: 800px;
-  margin: 26px auto;
-  padding: 0 16px 36px;
-}
-
-.panel {
-  padding: 23px;
-  margin-bottom: 20px;
-  background: linear-gradient(
-    145deg,
-    rgba(20, 32, 51, 0.97),
-    rgba(13, 21, 36, 0.97)
-  );
-  border: 1px solid var(--border);
-  border-radius: 23px;
-  box-shadow: 0 14px 38px #0003;
-}
-
-h1, h2, h3 {
-  color: #f8fafc;
-  letter-spacing: -0.5px;
-}
-
-h2 {
-  margin: 0 0 10px;
-  font-size: 21px;
-  font-weight: 800;
-}
-
-p {
-  margin: 8px 0 14px;
-}
-
-.small {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-strong {
-  overflow-wrap: anywhere;
-}
-
-input,
-textarea,
-select {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  margin-top: 12px;
-  padding: 14px 15px;
-  background: #0a1221 !important;
-  color: #f8fafc !important;
-  -webkit-text-fill-color: #f8fafc;
-  caret-color: #5eead4;
-  border: 1px solid #30415a;
-  border-radius: 14px;
-  font: inherit;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #8293aa !important;
-  -webkit-text-fill-color: #8293aa;
-  opacity: 1;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px #14b8a624;
-}
-
-button {
-  display: block;
-  width: 100%;
-  min-height: 46px;
-  padding: 12px 16px;
-  margin-top: 12px;
-  border: 1px solid transparent;
-  border-radius: 14px;
-  background: linear-gradient(120deg, #0d9488, #0ea5a4);
-  color: #fff;
-  font: inherit;
-  font-weight: 750;
-  cursor: pointer;
-  box-shadow: 0 6px 18px #0d94882b;
-  transition: transform 0.18s, filter 0.18s;
-}
-
-button:hover {
-  filter: brightness(1.12);
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-button.secondary {
-  background: #1b2940;
-  color: #dbeafe;
-  border-color: #33445e;
-  box-shadow: none;
-}
-
-button.secondary:hover {
-  background: #263750;
-}
-
-.user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  padding: 14px;
-  margin: 12px 0;
-  background: #101d30;
-  border: 1px solid #2b3c54;
-  border-radius: 17px;
-  overflow-wrap: anywhere;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.user:hover {
-  background: #16273b;
-  border-color: #168f91;
-}
-
-.user > div {
-  flex: 1;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.user button {
-  width: auto;
-  max-width: 48%;
-  flex-shrink: 0;
-  margin-top: 0;
-  padding: 10px 12px;
-  font-size: 13px;
-}
-
-#users:empty {
-  display: none;
-}
-
-#privateMessages,
-#communityMessages {
-  height: 300px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 15px;
-  background: #091321;
-  border: 1px solid #293b53;
-  border-radius: 18px;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #3b536e transparent;
-}
-
-.message {
-  width: fit-content;
-  max-width: 92%;
-  margin: 10px 0;
-  padding: 12px 15px;
-  overflow-wrap: anywhere;
-  background: linear-gradient(145deg, #1a2a40, #152338);
-  color: #e8f0fa;
-  border: 1px solid #30435c;
-  border-radius: 17px 17px 17px 5px;
-  box-shadow: 0 4px 12px #0002;
-}
-
-.message strong {
-  display: block;
-  margin-bottom: 4px;
-  color: #5eead4;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-#status {
-  padding: 0 6px;
-  color: #5eead4;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-a {
-  color: #67e8f9;
-}
-
-form {
-  margin-top: 8px;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 480px) {
-  header {
-    padding: 15px 16px;
-    font-size: 22px;
-  }
-
-  main {
-    margin: 15px auto;
-    padding: 0 11px 25px;
-  }
-
-  .panel {
-    padding: 17px;
-    margin-bottom: 15px;
-    border-radius: 19px;
-  }
-
-  h2 {
-    font-size: 19px;
-  }
-
-  #privateMessages,
-  #communityMessages {
-    height: 270px;
-    padding: 12px;
-  }
-
-  .user {
-    gap: 8px;
-    padding: 11px;
-  }
-
-  .user button {
-    max-width: 46%;
-    padding: 9px 8px;
-    font-size: 12px;
-  }
-
-  input {
-    padding: 13px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition: none !important;
-  }
-}
-
-:root {
-  color-scheme: light;
-  --primary: #5865f2;
-  --primary-dark: #424edb;
-  --ink: #182230;
-  --muted: #718096;
-  --surface: #ffffff;
-  --page: #f3f5fb;
-  --border: #e5e9f2;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-  background: var(--page);
-  color: var(--ink);
-  line-height: 1.5;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 20px 22px;
-  background: #171c35;
-  color: #ffffff;
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: -0.6px;
-  box-shadow: 0 4px 18px rgba(20, 30, 70, 0.16);
-}
-
-main {
-  width: 100%;
-  max-width: 760px;
-  margin: 28px auto;
-  padding: 0 16px 32px;
-}
-
-.panel {
-  background: var(--surface);
-  padding: 22px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 28px rgba(34, 47, 90, 0.055);
-}
-
-h2 {
-  margin: 0 0 10px;
-  font-size: 21px;
-  font-weight: 750;
-  letter-spacing: -0.4px;
-}
-
-p {
-  margin: 8px 0 14px;
-}
-
-.small {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-input {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  padding: 14px 15px;
-  margin-top: 12px;
-  border: 1px solid #dce2ee;
-  border-radius: 12px;
-  background: #f9faff;
-  color: var(--ink);
-  font: inherit;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.12);
-  background: #ffffff;
-}
-
-button {
-  width: 100%;
-  padding: 13px 16px;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--primary);
-  color: #ffffff;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-}
-
-button:hover {
-  background: var(--primary-dark);
-}
-
-button:active {
-  transform: scale(0.99);
-}
-
-button.secondary {
-  background: #edf0f8;
-  color: #303953;
-}
-
-button.secondary:hover {
-  background: #dfe4f2;
-}
-
-.user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow-wrap: anywhere;
-  padding: 13px;
-  margin: 10px 0;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: #fbfcff;
-  cursor: pointer;
-}
-
-.user button {
-  margin-top: 0;
-  flex-shrink: 0;
-}
-
-#users:empty {
-  display: none;
-}
-
-#privateMessages,
-#communityMessages {
-  height: 300px;
-  overflow-y: auto;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: #f6f8fd;
-  scroll-behavior: smooth;
-}
-
-.message {
-  width: fit-content;
-  max-width: 92%;
-  overflow-wrap: anywhere;
-  padding: 11px 14px;
-  margin: 9px 0;
-  border: 1px solid #e0e6f5;
-  border-radius: 14px 14px 14px 4px;
-  background: #ffffff;
-  color: #253047;
-  box-shadow: 0 2px 6px rgba(30, 40, 80, 0.04);
-}
-
-.message strong {
-  display: block;
-  margin-bottom: 3px;
-  color: var(--primary-dark);
-  font-size: 12px;
-}
-
-#status {
-  padding: 0 6px;
-  color: var(--primary-dark);
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 480px) {
-  header {
-    padding: 17px;
-    font-size: 22px;
-  }
-
-  main {
-    margin: 16px auto;
-    padding: 0 11px 24px;
-  }
-
-  .panel {
-    padding: 17px;
-    border-radius: 17px;
-    margin-bottom: 15px;
-  }
-
-  h2 {
-    font-size: 19px;
-  }
-
-  #privateMessages,
-  #communityMessages {
-    height: 260px;
-  }
-}
-
-/* MSD CHAT — ULTRA MODERN UI */
-
 :root {
   color-scheme: dark;
   --primary: #8175ff;
-  --accent: #38bdf8;
-  --page: #0a0b14;
+  --page: #080a18;
   --surface: #141625;
   --border: #292c43;
   --ink: #f4f5ff;
   --muted: #969bb8;
 }
-
+* { box-sizing: border-box; }
 body {
-  background:
-    radial-gradient(ellipse at top, #202047 0%, transparent 48%),
-    #0a0b14;
-  color: var(--ink);
+  margin: 0; min-height: 100vh;
   font-family: Inter, "Segoe UI", Arial, sans-serif;
-  line-height: 1.6;
+  background: radial-gradient(ellipse at top left, #202052 0%, transparent 45%),
+              radial-gradient(ellipse at bottom right, #102c45 0%, transparent 40%), var(--page);
+  color: var(--ink); line-height: 1.6;
 }
-
 header {
-  background: rgba(15, 17, 36, 0.96);
-  color: #fff;
-  border-bottom: 1px solid #343254;
-  box-shadow: 0 8px 35px #0005;
-  letter-spacing: -0.5px;
+  position: sticky; top: 0; z-index: 10; padding: 20px 22px;
+  background: rgba(15,17,36,.96); color: #fff; font-size: 25px; font-weight: 800;
+  border-bottom: 1px solid #343254; box-shadow: 0 8px 35px #0005;
 }
-
-main {
-  max-width: 820px;
-}
-
+main { width: 100%; max-width: 820px; margin: 28px auto; padding: 0 16px 32px; }
 .panel {
-  background: linear-gradient(145deg, #191b30, #111320);
-  border: 1px solid #30324c;
-  border-radius: 24px;
-  padding: 22px;
+  background: linear-gradient(145deg,#191b30,#111320); padding: 22px;
+  border: 1px solid #30324c; border-radius: 24px; margin-bottom: 22px;
   box-shadow: 0 16px 45px #0004;
-  margin-bottom: 22px;
 }
-
-h2 {
-  color: #f6f5ff;
-  letter-spacing: -0.6px;
-}
-
-p, .small {
-  color: var(--muted);
-}
-
+h2 { margin: 0 0 10px; font-size: 21px; font-weight: 750; color: #fff; letter-spacing: -.4px; }
+p { margin: 8px 0 14px; color: var(--muted); }
+.small { font-size: 13px; color: var(--muted); }
 input {
-  background: #0e1020;
-  border: 1px solid #353752;
-  border-radius: 14px;
-  color: #fff;
-  padding: 14px;
+  display: block; width: 100%; min-width: 0; padding: 14px; margin-top: 12px;
+  border: 1px solid #343b63; border-radius: 12px; background: #101225; color: #fff;
+  -webkit-text-fill-color: #fff; caret-color: #fff; font: inherit; outline: none;
 }
-
-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px #8175ff30;
-  outline: none;
-}
-
+input::placeholder { color: #a5aecb; -webkit-text-fill-color: #a5aecb; }
+input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #8175ff30; }
 button {
-  background: linear-gradient(110deg, #7667ff, #4d8dff);
-  border-radius: 14px;
-  padding: 13px 17px;
-  color: white;
-  font-weight: 700;
-  box-shadow: 0 5px 18px #6655ff25;
-  transition: transform .2s, filter .2s;
+  width: 100%; padding: 13px 16px; margin-top: 12px; border: 1px solid #a855f773;
+  border-radius: 14px; background: linear-gradient(135deg,#7c3aed,#2563eb);
+  color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 18px #7c3aed38; transition: transform .2s, filter .2s;
 }
-
-button:hover {
-  filter: brightness(1.15);
-}
-
-button:active {
-  transform: scale(.98);
-}
-
-button.secondary {
-  background: #252840;
-  color: #e4e6ff;
-  box-shadow: none;
-}
-
+button:hover { filter: brightness(1.15); }
+button:active { transform: scale(.98); }
+button.secondary { background: #252840; color: #e4e6ff; box-shadow: none; }
 .user {
-  background: #191b2e;
-  border: 1px solid #30334c;
-  border-radius: 17px;
-  padding: 14px;
-  transition: background .2s, border-color .2s;
+  display: flex; align-items: center; gap: 12px; overflow-wrap: anywhere; padding: 13px;
+  margin: 10px 0; border: 1px solid #30334c; border-radius: 17px;
+  background: #191b2e; cursor: pointer;
 }
-
-.user:hover {
-  background: #222440;
-  border-color: #7770d9;
+.user > div { min-width: 0; flex: 1; }
+.user button { width: auto; margin-top: 0; flex-shrink: 0; }
+#users:empty { display: none; }
+#privateMessages, #communityMessages {
+  height: 280px; overflow-y: auto; padding: 16px; border: 1px solid #2c2e47;
+  border-radius: 19px; background: #0d0f1c; scroll-behavior: smooth;
 }
-
-#privateMessages,
-#communityMessages {
-  background: #0d0f1c;
-  border: 1px solid #2c2e47;
-  border-radius: 19px;
-  padding: 16px;
-  scroll-behavior: smooth;
-}
-
 .message {
-  background: linear-gradient(145deg, #252941, #1b1e31);
-  color: #f5f6ff;
-  border: 1px solid #373b59;
-  border-radius: 18px 18px 18px 5px;
-  padding: 12px 15px;
-  margin: 11px 0;
-  box-shadow: 0 5px 16px #0002;
+  width: fit-content; max-width: 96%; overflow-wrap: anywhere; padding: 12px 15px;
+  margin: 11px 0; border: 1px solid #373b59; border-radius: 18px 18px 18px 5px;
+  background: linear-gradient(145deg,#252941,#1b1e31); color: #f5f6ff; box-shadow: 0 5px 16px #0002;
 }
-
-.message strong {
-  color: #a99fff;
-  font-size: 12px;
-  letter-spacing: .2px;
+.message strong { display: block; margin-bottom: 3px; color: #a99fff; font-size: 12px; letter-spacing: .2px; }
+.message-text { white-space: pre-wrap; }
+.reaction-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.reaction-button {
+  width: auto; min-width: 42px; margin: 0; padding: 5px 9px; border-radius: 999px;
+  background: #20243b; border: 1px solid #414665; box-shadow: none;
+  font-size: 14px; line-height: 1.35;
 }
-
-#status {
-  color: #a99fff;
-}
-
-[hidden] {
-  display: none !important;
-}
-
+.reaction-button.selected { background: #453080; border-color: #b49aff; box-shadow: 0 0 0 1px #b49aff55; }
+.reaction-button.add-reaction { min-width: 38px; font-size: 16px; background: #171a2c; }
+#status { padding: 0 6px; color: #a99fff; font-size: 14px; overflow-wrap: anywhere; }
+[hidden] { display: none !important; }
 @media (max-width: 480px) {
-  header {
-    padding: 17px;
-  }
-
-  main {
-    margin: 15px auto;
-    padding: 0 11px 25px;
-  }
-
-  .panel {
-    padding: 17px;
-    border-radius: 20px;
-  }
-
-  #privateMessages,
-  #communityMessages {
-    height: 280px;
-  }
-}
-input,
-input[type="email"],
-input[type="password"] {
-  background-color: #101225 !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  /* MSD CHAT — FIX WHITE TYPING AREAS */
-
-input,
-input[type="email"],
-input[type="password"],
-input[type="text"],
-textarea,
-#email,
-#password,
-#privateInput,
-#communityInput {
-background-color: #0a1221 !important;
-color: #ffffff !important;
--webkit-text-fill-color: #ffffff !important;
-caret-color: #5eead4 !important;
-border: 1px solid #30415a !important;
-border-radius: 14px !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-color: #94a3b8 !important;
--webkit-text-fill-color: #94a3b8 !important;
-opacity: 1 !important;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
--webkit-text-fill-color: #ffffff !important;
--webkit-box-shadow: 0 0 0 1000px #0a1221 inset !important;
-transition: background-color 9999s ease-out;
-}
-  /* MSD CHAT — FIX USER LIST LAYOUT */
-
-.user {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  width: 100% !important;
-  min-width: 0 !important;
-}
-
-.user > div {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-  width: auto !important;
-  overflow-wrap: anywhere !important;
-  word-break: normal !important;
-  white-space: normal !important;
-}
-
-.user button {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 125px !important;
-  max-width: 48% !important;
-  flex: 0 0 auto !important;
-  margin: 0 !important;
-  padding: 10px 12px !important;
-  white-space: normal !important;
-  font-size: 13px !important;
-}
-
-@media (max-width: 480px) {
-  .user {
-    gap: 8px !important;
-    padding: 12px !important;
-  }
-
-  .user button {
-    min-width: 110px !important;
-    max-width: 46% !important;
-    padding: 9px 8px !important;
-    font-size: 12px !important;
-  }
-}
-  /* MSD CHAT — USER CARD LAYOUT FIX */
-
-#users .user {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  align-items: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  overflow: hidden !important;
-}
-
-#users .user > div {
-  display: block !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  overflow-wrap: anywhere !important;
-  word-break: normal !important;
-  white-space: normal !important;
-  line-height: 1.5 !important;
-}
-
-#users .user button {
-  display: block !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: 145px !important;
-  margin: 0 !important;
-  padding: 10px !important;
-  white-space: normal !important;
-}
-
-@media (max-width: 480px) {
-  #users .user {
-    grid-template-columns: minmax(0, 1fr) 115px !important;
-  }
-
-  #users .user button {
-    width: 115px !important;
-    font-size: 12px !important;
-  }
+  header { padding: 17px; font-size: 22px; }
+  main { margin: 15px auto; padding: 0 11px 25px; }
+  .panel { padding: 17px; border-radius: 20px; }
+  h2 { font-size: 19px; }
+  #privateMessages, #communityMessages { height: 280px; }
+  .user { align-items: stretch; flex-direction: column; }
+  .user button { width: 100%; }
 }
 </style>
-  
 </head>
 <body>
 <header>💬 MSD Chat</header>
 <main>
 <section class="panel" id="authPanel">
-<h2>Welcome to MSD Chat</h2>
-<p>Create an account or sign in.</p>
-<input id="email" type="email" placeholder="Email address" autocomplete="email">
-<input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
-<button id="register">Create account</button>
-<button id="login" class="secondary">Sign in</button>
+  <h2>Welcome to MSD Chat</h2>
+  <p>Create an account or sign in.</p>
+  <input id="email" type="email" placeholder="Email address" autocomplete="email">
+  <input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+  <button id="register">Create account</button>
+  <button id="login" class="secondary">Sign in</button>
 </section>
 
 <div id="appPanel" hidden>
-<section class="panel">
-<p>Signed in as <strong id="who"></strong></p>
-<button id="logout" class="secondary">Sign out</button>
-</section>
+  <section class="panel">
+    <p>Signed in as <strong id="who"></strong></p>
+    <button id="logout" class="secondary">Sign out</button>
+  </section>
 
-<section class="panel">
-<h2>👥 Private Chats</h2>
-<p class="small">Select a user to open a private conversation.</p>
-<div id="users">Loading users...</div>
-</section>
+  <section class="panel">
+    <h2>👥 Private Chats</h2>
+    <p class="small">Select a user to open a private conversation.</p>
+    <div id="users">Loading users...</div>
+  </section>
 
-<section class="panel" id="privatePanel" hidden>
-<h2 id="privateTitle">Private conversation</h2>
-<div id="privateMessages" aria-live="polite"></div>
-<form id="privateForm">
-<input id="privateInput" maxlength="2000" placeholder="Write a private message..." required>
-<button type="submit">Send privately</button>
-</form>
-<button id="closePrivate" class="secondary">Close conversation</button>
-</section>
+  <section class="panel" id="privatePanel" hidden>
+    <h2 id="privateTitle">Private conversation</h2>
+    <div id="privateMessages" aria-live="polite"></div>
+    <form id="privateForm">
+      <input id="privateInput" maxlength="2000" placeholder="Write a private message..." required>
+      <button type="submit">Send privately</button>
+    </form>
+    <button id="closePrivate" class="secondary">Close conversation</button>
+  </section>
 
-<section class="panel">
-<h2>🌎 Community Chat</h2>
-<p class="small">Messages here are visible to all signed-in users.</p>
-<div id="communityMessages" aria-live="polite"></div>
-<form id="communityForm">
-<input id="communityInput" maxlength="2000" placeholder="Write a community message..." required>
-<button type="submit">Send message</button>
-</form>
-</section>
+  <section class="panel">
+    <h2>🌎 Community Chat</h2>
+    <p class="small">Messages here are visible to all signed-in users.</p>
+    <div id="communityMessages" aria-live="polite"></div>
+    <form id="communityForm">
+      <input id="communityInput" maxlength="2000" placeholder="Write a community message..." required>
+      <button type="submit">Send message</button>
+    </form>
+  </section>
 </div>
 <p id="status" role="status" aria-live="polite"></p>
 </main>
@@ -865,30 +144,31 @@ transition: background-color 9999s ease-out;
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {
-  getAuth, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, onAuthStateChanged, signOut
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import {
-  getFirestore, collection, doc, setDoc, addDoc,
+  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteField,
   query, orderBy, limit, onSnapshot, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-// IMPORTANT: Insert your own six Firebase config values below.
 const firebaseConfig = {
-  apiKey:  "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
+  apiKey: "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
   authDomain: "msd-chat-18e3a.firebaseapp.com",
   projectId: "msd-chat-18e3a",
   storageBucket: "msd-chat-18e3a.firebasestorage.app",
   messagingSenderId: "159171434081",
-  appId: "1:159171434081:web:9997129ce58a5af47abc20",
+  appId: "1:159171434081:web:9997129ce58a5af47abc20"
 };
 
 const $ = id => document.getElementById(id);
 const status = $("status");
 const showStatus = message => { status.textContent = message; };
+const REACTION_CHOICES = ["❤️", "😂", "👍", "😮", "😢", "🔥"];
+const REACTION_FIELD = uid => "reactions." + uid;
 
 if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
-  showStatus("Setup needed: insert your six Firebase configuration values.");
+  showStatus("Setup needed: insert your Firebase configuration values.");
 } else {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -908,36 +188,103 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
     if (name === "private") stopPrivate = null;
   }
 
-  function renderMessages(container, snapshot) {
+  function makeReactionButton(emoji, count, selected, onClick, label) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "reaction-button" + (selected ? " selected" : "");
+    button.textContent = count ? `${emoji} ${count}` : emoji;
+    button.setAttribute("aria-label", label || `${emoji} reaction`);
+    button.title = label || `${emoji} reaction`;
+    button.onclick = onClick;
+    return button;
+  }
+
+  function renderMessages(container, snapshot, messageCollectionPath) {
     container.replaceChildren();
+    const currentUser = auth.currentUser;
+
     snapshot.forEach(item => {
       const data = item.data();
       const div = document.createElement("div");
       div.className = "message";
+
       const sender = document.createElement("strong");
       sender.textContent = (data.senderEmail || "User") + ": ";
-      const body = document.createElement("span");
+
+      const body = document.createElement("div");
+      body.className = "message-text";
       body.textContent = data.text || "";
       div.append(sender, body);
-      container.append(div);
+
+      const reactionRow = document.createElement("div");
+      reactionRow.className = "reaction-row";
+      const reactions = data.reactions && typeof data.reactions === "object" ? data.reactions : {};
+
+      REACTION_CHOICES.forEach(emoji => {
+        const usersWhoReacted = Object.entries(reactions).filter(([, value]) => value === emoji);
+        const count = usersWhoReacted.length;
+        const selected = !!currentUser && reactions[currentUser.uid] === emoji;
+        reactionRow.appendChild(makeReactionButton(emoji, count, selected, async () => {
+          const user = auth.currentUser;
+          if (!user) {
+            showStatus("Please sign in to react.");
+            return;
+          }
+          const messageRef = doc(db, ...messageCollectionPath, item.id);
+          try {
+            if (reactions[user.uid] === emoji) {
+              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: deleteField() });
+            } else {
+              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: emoji });
+            }
+            showStatus("");
+          } catch (error) {
+            showStatus("Could not save reaction: " + error.message);
+          }
+        }, `React ${emoji}; ${count} reaction${count === 1 ? "" : "s"}`));
+      });
+
+      const addButton = makeReactionButton("＋", 0, false, () => {
+        const picker = document.createElement("div");
+        picker.className = "reaction-row";
+        REACTION_CHOICES.forEach(emoji => {
+          picker.appendChild(makeReactionButton(emoji, 0, false, async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            const messageRef = doc(db, ...messageCollectionPath, item.id);
+            try {
+              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: emoji });
+              showStatus("");
+            } catch (error) {
+              showStatus("Could not save reaction: " + error.message);
+            }
+          }, `Choose ${emoji}`));
+        });
+        if (reactionRow.nextSibling && reactionRow.nextSibling.classList.contains("reaction-picker")) {
+          reactionRow.nextSibling.remove();
+        } else {
+          picker.classList.add("reaction-picker");
+          reactionRow.after(picker);
+        }
+      }, "Choose a reaction");
+      addButton.classList.add("add-reaction");
+      reactionRow.appendChild(addButton);
+      div.appendChild(reactionRow);
+      container.appendChild(div);
     });
     container.scrollTop = container.scrollHeight;
   }
 
   $("register").onclick = async () => {
     try {
-      await createUserWithEmailAndPassword(
-        auth, $("email").value.trim(), $("password").value
-      );
+      await createUserWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
       showStatus("Account created!");
     } catch (e) { showStatus(e.message); }
   };
 
   $("login").onclick = async () => {
     try {
-      await signInWithEmailAndPassword(
-        auth, $("email").value.trim(), $("password").value
-      );
+      await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
       showStatus("Signed in!");
     } catch (e) { showStatus(e.message); }
   };
@@ -962,56 +309,40 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
       $("who").textContent = "";
       return;
     }
-
     $("who").textContent = user.email || "User";
 
     try {
-      // Register this account in the user directory.
       await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        email: user.email || "User",
-        updatedAt: serverTimestamp()
+        uid: user.uid, email: user.email || "User", updatedAt: serverTimestamp()
       }, { merge: true });
 
-      // Community chat
-      const communityQuery = query(
-        collection(db, "messages"),
-        orderBy("createdAt", "asc"),
-        limit(100)
-      );
+      const communityQuery = query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(100));
       stopCommunity = onSnapshot(communityQuery, snapshot => {
-        renderMessages($("communityMessages"), snapshot);
+        renderMessages($("communityMessages"), snapshot, ["messages"]);
       }, e => showStatus("Community chat error: " + e.message));
 
-      // Registered users directory
       stopUsers = onSnapshot(collection(db, "users"), snapshot => {
         const box = $("users");
         box.replaceChildren();
         let found = false;
-
         snapshot.forEach(item => {
           const person = item.data();
           if (!person.uid || person.uid === user.uid) return;
           found = true;
-
           const row = document.createElement("div");
           row.className = "user";
           const label = document.createElement("div");
           label.textContent = person.email || "MSD Chat user";
           const openButton = document.createElement("button");
           openButton.textContent = "Open private chat";
-          openButton.onclick = () => openPrivateChat(
-            user, person.uid, person.email || "MSD Chat user"
-          );
+          openButton.onclick = () => openPrivateChat(user, person.uid, person.email || "MSD Chat user");
           row.append(label, openButton);
           box.append(row);
         });
-
         if (!found) {
           box.textContent = "No other registered users found yet. Ask another user to sign in to MSD Chat once.";
         }
       }, e => showStatus("User list error: " + e.message));
-
     } catch (e) {
       showStatus("Setup error: " + e.message);
     }
@@ -1024,26 +355,18 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
     $("privateTitle").textContent = "Private chat with " + otherEmail;
     $("privateMessages").replaceChildren();
     showStatus("Opening private chat...");
-
     try {
       const members = [user.uid, otherUid].sort();
       const chatId = members.join("__");
       const chatRef = doc(db, "chats", chatId);
-
-      // Create the conversation if needed, or update its timestamp.
-      await setDoc(chatRef, {
-        members,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
+      await setDoc(chatRef, { members, updatedAt: serverTimestamp() }, { merge: true });
 
       const privateQuery = query(
         collection(db, "chats", chatId, "messages"),
-        orderBy("createdAt", "asc"),
-        limit(100)
+        orderBy("createdAt", "asc"), limit(100)
       );
-
       stopPrivate = onSnapshot(privateQuery, snapshot => {
-        renderMessages($("privateMessages"), snapshot);
+        renderMessages($("privateMessages"), snapshot, ["chats", chatId, "messages"]);
         showStatus("");
       }, e => showStatus("Private chat error: " + e.message));
     } catch (e) {
@@ -1056,16 +379,12 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
     const user = auth.currentUser;
     const text = $("privateInput").value.trim();
     if (!user || !selectedUser || !text) return;
-
     const members = [user.uid, selectedUser.uid].sort();
     const chatId = members.join("__");
-
     try {
       await addDoc(collection(db, "chats", chatId, "messages"), {
-        senderId: user.uid,
-        senderEmail: user.email || "User",
-        text,
-        createdAt: serverTimestamp()
+        senderId: user.uid, senderEmail: user.email || "User", text,
+        reactions: {}, createdAt: serverTimestamp()
       });
       $("privateInput").value = "";
       showStatus("");
@@ -1085,13 +404,10 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
     const user = auth.currentUser;
     const text = $("communityInput").value.trim();
     if (!user || !text) return;
-
     try {
       await addDoc(collection(db, "messages"), {
-        senderId: user.uid,
-        senderEmail: user.email || "User",
-        text,
-        createdAt: serverTimestamp()
+        senderId: user.uid, senderEmail: user.email || "User", text,
+        reactions: {}, createdAt: serverTimestamp()
       });
       $("communityInput").value = "";
       showStatus("");
@@ -1101,20 +417,14 @@ if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
   };
 }
 </script>
-  <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./sw.js")
-        .then(function () {
-          console.log("MSD Chat service worker registered!");
-        })
-        .catch(function (error) {
-          console.error("Service worker registration failed:", error);
-        });
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function (error) {
+      console.error("Service worker registration failed:", error);
     });
-  }
+  });
+}
 </script>
 </body>
 </html>
-
-
