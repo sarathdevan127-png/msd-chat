@@ -92,6 +92,124 @@ button.secondary { background: #252840; color: #e4e6ff; box-shadow: none; }
   .user { align-items: stretch; flex-direction: column; }
   .user button { width: 100%; }
 }
+  /* MSD CHAT — FULL SCREEN PRIVATE CHAT */
+
+#privatePanel:not([hidden]) {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #0b1020 !important;
+}
+
+/* Chat header */
+#privatePanel h2 {
+  flex: 0 0 auto !important;
+  min-height: 64px !important;
+  margin: 0 !important;
+  padding: 18px 15px 18px 62px !important;
+  background: #171c35 !important;
+  border-bottom: 1px solid #30364f !important;
+  font-size: 17px !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Back button */
+#privatePanel #closePrivate {
+  position: absolute !important;
+  top: 9px !important;
+  left: 8px !important;
+  z-index: 5 !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0 !important;
+}
+
+#privatePanel #closePrivate::before {
+  content: "‹";
+  font-size: 38px;
+  line-height: 1;
+  color: white;
+}
+
+/* Full-screen message area */
+#privatePanel #privateMessages {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 16px 12px !important;
+  overflow-y: auto !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #0b1020 !important;
+}
+
+/* Message typing area at the bottom */
+#privatePanel #privateForm {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  background: #171c35 !important;
+  border-top: 1px solid #30364f !important;
+}
+
+#privatePanel #privateInput {
+  flex: 1 1 auto !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  border-radius: 24px !important;
+}
+
+#privatePanel #privateForm button {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 65px !important;
+  margin: 0 !important;
+  padding: 12px 15px !important;
+  border-radius: 24px !important;
+}
+
+/* Keep the chat usable on small phones */
+@media (max-width: 480px) {
+  #privatePanel #privateMessages {
+    padding: 12px 9px !important;
+  }
+
+  #privatePanel #privateForm {
+    gap: 6px !important;
+    padding: 8px !important;
+    padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+  }
+
+  #privatePanel #privateForm button {
+    min-width: 58px !important;
+    padding: 11px !important;
+    font-size: 13px !important;
+  }
+}
 </style>
 </head>
 <body>
