@@ -771,7 +771,49 @@ transition: background-color 9999s ease-out;
     font-size: 12px !important;
   }
 }
+  /* MSD CHAT — USER CARD LAYOUT FIX */
+
+#users .user {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+#users .user > div {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  white-space: normal !important;
+  line-height: 1.5 !important;
+}
+
+#users .user button {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 145px !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  white-space: normal !important;
+}
+
+@media (max-width: 480px) {
+  #users .user {
+    grid-template-columns: minmax(0, 1fr) 115px !important;
+  }
+
+  #users .user button {
+    width: 115px !important;
+    font-size: 12px !important;
+  }
+}
 </style>
+  
 </head>
 <body>
 <header>💬 MSD Chat</header>
