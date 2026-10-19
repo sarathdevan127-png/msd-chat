@@ -1,548 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="manifest.json">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101225">
-  <title>MSD Chat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10182b">
+<meta name="description" content="MSD Chat — private and community messaging">
+<link rel="manifest" href="manifest.json">
+<title>MSD Chat</title>
 <style>
-:root {
-  color-scheme: dark;
-  --primary: #8175ff;
-  --page: #080a18;
-  --surface: #141625;
-  --border: #292c43;
-  --ink: #f4f5ff;
-  --muted: #969bb8;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0; min-height: 100vh;
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-  background: radial-gradient(ellipse at top left, #202052 0%, transparent 45%),
-              radial-gradient(ellipse at bottom right, #102c45 0%, transparent 40%), var(--page);
-  color: var(--ink); line-height: 1.6;
-}
-header {
-  position: sticky; top: 0; z-index: 10; padding: 20px 22px;
-  background: rgba(15,17,36,.96); color: #fff; font-size: 25px; font-weight: 800;
-  border-bottom: 1px solid #343254; box-shadow: 0 8px 35px #0005;
-}
-main { width: 100%; max-width: 820px; margin: 28px auto; padding: 0 16px 32px; }
-.panel {
-  background: linear-gradient(145deg,#191b30,#111320); padding: 22px;
-  border: 1px solid #30324c; border-radius: 24px; margin-bottom: 22px;
-  box-shadow: 0 16px 45px #0004;
-}
-h2 { margin: 0 0 10px; font-size: 21px; font-weight: 750; color: #fff; letter-spacing: -.4px; }
-p { margin: 8px 0 14px; color: var(--muted); }
-.small { font-size: 13px; color: var(--muted); }
-input {
-  display: block; width: 100%; min-width: 0; padding: 14px; margin-top: 12px;
-  border: 1px solid #343b63; border-radius: 12px; background: #101225; color: #fff;
-  -webkit-text-fill-color: #fff; caret-color: #fff; font: inherit; outline: none;
-}
-input::placeholder { color: #a5aecb; -webkit-text-fill-color: #a5aecb; }
-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #8175ff30; }
-button {
-  width: 100%; padding: 13px 16px; margin-top: 12px; border: 1px solid #a855f773;
-  border-radius: 14px; background: linear-gradient(135deg,#7c3aed,#2563eb);
-  color: #fff; font: inherit; font-weight: 700; cursor: pointer;
-  box-shadow: 0 4px 18px #7c3aed38; transition: transform .2s, filter .2s;
-}
-button:hover { filter: brightness(1.15); }
-button:active { transform: scale(.98); }
-button.secondary { background: #252840; color: #e4e6ff; box-shadow: none; }
-.user {
-  display: flex; align-items: center; gap: 12px; overflow-wrap: anywhere; padding: 13px;
-  margin: 10px 0; border: 1px solid #30334c; border-radius: 17px;
-  background: #191b2e; cursor: pointer;
-}
-.user > div { min-width: 0; flex: 1; }
-.user button { width: auto; margin-top: 0; flex-shrink: 0; }
-#users:empty { display: none; }
-#privateMessages, #communityMessages {
-  height: 280px; overflow-y: auto; padding: 16px; border: 1px solid #2c2e47;
-  border-radius: 19px; background: #0d0f1c; scroll-behavior: smooth;
-}
-.message {
-  width: fit-content; max-width: 96%; overflow-wrap: anywhere; padding: 12px 15px;
-  margin: 11px 0; border: 1px solid #373b59; border-radius: 18px 18px 18px 5px;
-  background: linear-gradient(145deg,#252941,#1b1e31); color: #f5f6ff; box-shadow: 0 5px 16px #0002;
-}
-.message strong { display: block; margin-bottom: 3px; color: #a99fff; font-size: 12px; letter-spacing: .2px; }
-.message-text { white-space: pre-wrap; }
-.reaction-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
-.reaction-button {
-  width: auto; min-width: 42px; margin: 0; padding: 5px 9px; border-radius: 999px;
-  background: #20243b; border: 1px solid #414665; box-shadow: none;
-  font-size: 14px; line-height: 1.35;
-}
-.reaction-button.selected { background: #453080; border-color: #b49aff; box-shadow: 0 0 0 1px #b49aff55; }
-.reaction-button.add-reaction { min-width: 38px; font-size: 16px; background: #171a2c; }
-#status { padding: 0 6px; color: #a99fff; font-size: 14px; overflow-wrap: anywhere; }
-[hidden] { display: none !important; }
-@media (max-width: 480px) {
-  header { padding: 17px; font-size: 22px; }
-  main { margin: 15px auto; padding: 0 11px 25px; }
-  .panel { padding: 17px; border-radius: 20px; }
-  h2 { font-size: 19px; }
-  #privateMessages, #communityMessages { height: 280px; }
-  .user { align-items: stretch; flex-direction: column; }
-  .user button { width: 100%; }
-}
-  /* MSD CHAT — FULL SCREEN PRIVATE CHAT */
-
-#privatePanel:not([hidden]) {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 9999 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  max-height: 100dvh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: none !important;
-  border-radius: 0 !important;
-  background: #0b1020 !important;
-}
-
-/* Chat header */
-#privatePanel h2 {
-  flex: 0 0 auto !important;
-  min-height: 64px !important;
-  margin: 0 !important;
-  padding: 18px 15px 18px 62px !important;
-  background: #171c35 !important;
-  border-bottom: 1px solid #30364f !important;
-  font-size: 17px !important;
-  overflow-wrap: anywhere !important;
-}
-
-/* Back button */
-#privatePanel #closePrivate {
-  position: absolute !important;
-  top: 9px !important;
-  left: 8px !important;
-  z-index: 5 !important;
-  width: 44px !important;
-  min-width: 44px !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  font-size: 0 !important;
-}
-
-#privatePanel #closePrivate::before {
-  content: "‹";
-  font-size: 38px;
-  line-height: 1;
-  color: white;
-}
-
-/* Full-screen message area */
-#privatePanel #privateMessages {
-  flex: 1 1 0 !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 16px 12px !important;
-  overflow-y: auto !important;
-  border: none !important;
-  border-radius: 0 !important;
-  background: #0b1020 !important;
-}
-
-/* Message typing area at the bottom */
-#privatePanel #privateForm {
-  display: flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  gap: 8px !important;
-  margin: 0 !important;
-  padding: 10px !important;
-  padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
-  background: #171c35 !important;
-  border-top: 1px solid #30364f !important;
-}
-
-#privatePanel #privateInput {
-  flex: 1 1 auto !important;
-  width: 0 !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  border-radius: 24px !important;
-}
-
-#privatePanel #privateForm button {
-  flex: 0 0 auto !important;
-  width: auto !important;
-  min-width: 65px !important;
-  margin: 0 !important;
-  padding: 12px 15px !important;
-  border-radius: 24px !important;
-}
-
-/* Keep the chat usable on small phones */
-@media (max-width: 480px) {
-  #privatePanel #privateMessages {
-    padding: 12px 9px !important;
-  }
-
-  #privatePanel #privateForm {
-    gap: 6px !important;
-    padding: 8px !important;
-    padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
-  }
-
-  #privatePanel #privateForm button {
-    min-width: 58px !important;
-    padding: 11px !important;
-    font-size: 13px !important;
-  }
-}
+:root{color-scheme:dark;--bg:#0b1220;--panel:#131e30;--panel2:#18263b;--border:#2a3a52;--text:#f3f6fb;--muted:#9baac0;--brand:#20c7a5;--brand2:#138f80;--blue:#6da8ff;--danger:#ff6b78;--input:#0c1627}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}body{min-height:100dvh}button,input,textarea{font:inherit}button{border:0;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--brand2),var(--brand));font-weight:700;border-radius:13px;padding:12px 15px;min-height:44px}button:disabled{opacity:.55;cursor:not-allowed}.secondary{background:#23334a;border:1px solid #344861;box-shadow:none}.danger{background:#482531;border:1px solid #74404a}.muted{color:var(--muted)}.hidden,[hidden]{display:none!important}.topbar{height:64px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#101a2b;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}.brandmark{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#20c7a5,#4387ff);font-size:20px}.brandname{font-size:21px;font-weight:850;letter-spacing:-.5px}.top-actions{margin-left:auto;display:flex;gap:8px}.top-actions button{min-height:38px;padding:8px 11px;font-size:13px}.wrap{width:min(100%,900px);margin:22px auto;padding:0 14px 40px}.card{background:linear-gradient(145deg,#152237,#101a2a);border:1px solid var(--border);border-radius:21px;padding:21px;margin-bottom:16px;box-shadow:0 12px 34px #0002}.card h2{margin:0 0 7px;font-size:20px;letter-spacing:-.3px}.card p{margin:7px 0 13px}.field{display:block;width:100%;min-width:0;background:var(--input)!important;color:#fff!important;-webkit-text-fill-color:#fff;border:1px solid #34465f;border-radius:13px;padding:14px 15px;margin:10px 0;outline:none;caret-color:var(--brand)}.field::placeholder{color:#9baac0!important;-webkit-text-fill-color:#9baac0;opacity:1}.field:focus{border-color:var(--brand);box-shadow:0 0 0 3px #20c7a522}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.row .field{flex:1}.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-grid button{width:100%}.profile-head{display:flex;align-items:center;gap:13px}.avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#20c7a5,#5d84ff);font-weight:800;font-size:18px;color:white}.avatar img{width:100%;height:100%;object-fit:cover}.profile-text{flex:1;min-width:0}.profile-text strong,.profile-text div{display:block;overflow-wrap:anywhere}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#64748b;margin-right:5px}.status-dot.online{background:#34d399;box-shadow:0 0 0 3px #34d39920}.user-list{display:grid;gap:9px}.user-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;background:#101b2c;border:1px solid #2a3a52;border-radius:16px;color:var(--text)}.user-item:hover{border-color:#268d87;background:#14243a}.user-info{flex:1;min-width:0}.user-info strong{display:block;overflow-wrap:anywhere;word-break:normal;white-space:normal;line-height:1.35}.user-info small{display:block;color:var(--muted);margin-top:4px}.user-info .online-label{color:#50e0ad}.user-item .arrow{color:var(--muted);font-size:23px}.tabs{display:flex;gap:8px;margin-bottom:14px}.tab{flex:1;background:#1a2940;color:#c8d5e8;border:1px solid #30445e}.tab.active{background:#173d42;border-color:#208f83;color:#eafffa}.notice{min-height:22px;color:#78e7d1;font-size:13px;overflow-wrap:anywhere;padding:0 3px}.small{font-size:13px;color:var(--muted)}
+/* full-screen chat view */
+#chatView{position:fixed;inset:0;z-index:1000;background:#0b1220;display:flex;flex-direction:column;height:100dvh;width:100%;padding:0;margin:0;border:0;border-radius:0;overflow:hidden}
+.chat-head{height:68px;min-height:68px;display:flex;align-items:center;gap:10px;padding:8px 12px;background:#101b2c;border-bottom:1px solid var(--border);padding-top:max(8px,env(safe-area-inset-top))}.back-btn{width:42px;min-width:42px;height:42px;min-height:42px;padding:0;background:transparent;border:1px solid #30445e;font-size:27px;line-height:1;border-radius:50%}.chat-person{display:flex;align-items:center;gap:10px;min-width:0;flex:1}.chat-person .avatar{width:42px;height:42px;flex-basis:42px}.chat-person-text{min-width:0}.chat-person-text strong{display:block;overflow-wrap:anywhere;line-height:1.25}.chat-person-text small{color:var(--muted)}.chat-tools{display:flex;gap:5px}.chat-tools button{padding:8px 10px;min-height:38px;background:#23334a;font-size:13px}.chat-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 12px 20px;background:radial-gradient(ellipse at top,#17213a 0%,#0b1220 60%)}.day-note{text-align:center;font-size:11px;color:var(--muted);margin:5px auto 14px;background:#16243a;border-radius:20px;padding:5px 11px;width:max-content;max-width:90%}.bubble{position:relative;width:fit-content;max-width:min(86%,560px);padding:10px 12px 8px;margin:8px 0;border-radius:17px 17px 17px 5px;background:#1b2b42;border:1px solid #2d415b;overflow-wrap:anywhere;box-shadow:0 3px 10px #0002}.bubble.mine{margin-left:auto;background:#125d57;border-color:#1b776e;border-radius:17px 17px 5px 17px}.bubble-author{font-size:11px;font-weight:800;color:#79e8d1;margin-bottom:4px}.bubble-text{white-space:pre-wrap;word-break:break-word;line-height:1.45}.bubble-meta{font-size:10px;color:#c0ccdc;text-align:right;margin-top:5px}.reaction-line{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.react-pill{background:#0c1728;border:1px solid #41536c;border-radius:20px;padding:3px 7px;min-height:27px;font-size:12px}.react-pill.selected{border-color:#20c7a5;background:#16443f}.react-tools{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}.react-tools button{min-height:28px;padding:2px 7px;border-radius:20px;background:#24364c;font-size:15px;box-shadow:none}.chat-compose{display:flex;align-items:flex-end;gap:8px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:#101b2c;border-top:1px solid var(--border)}.chat-compose textarea{flex:1;resize:none;max-height:120px;min-height:44px;margin:0;background:#0b1525!important;color:#fff!important;-webkit-text-fill-color:#fff;border:1px solid #34465f;border-radius:22px;padding:11px 14px;line-height:1.35;outline:none}.chat-compose textarea::placeholder{color:#9baac0!important;-webkit-text-fill-color:#9baac0}.chat-compose button{min-width:54px;width:54px;height:44px;padding:0;border-radius:50%;font-size:18px}.empty{padding:28px 12px;text-align:center;color:var(--muted)}.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.edit-grid .field{margin:4px 0}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.section-title button{width:auto;min-height:36px;padding:7px 10px;font-size:12px}.footer-note{text-align:center;color:#718198;font-size:11px;padding:12px}
+@media(max-width:520px){.wrap{margin:13px auto;padding:0 10px 26px}.card{padding:16px;border-radius:18px}.topbar{padding:0 12px}.brandname{font-size:19px}.auth-grid{grid-template-columns:1fr 1fr}.chat-head{height:64px;min-height:64px}.chat-body{padding:11px 9px 16px}.bubble{max-width:91%}.chat-tools button{font-size:12px;padding:7px}.edit-grid{grid-template-columns:1fr}.profile-head{align-items:flex-start}}
 </style>
 </head>
 <body>
-<header>💬 MSD Chat</header>
-<main>
-<section class="panel" id="authPanel">
-  <h2>Welcome to MSD Chat</h2>
-  <p>Create an account or sign in.</p>
-  <input id="email" type="email" placeholder="Email address" autocomplete="email">
-  <input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
-  <button id="register">Create account</button>
-  <button id="login" class="secondary">Sign in</button>
-</section>
-
-<div id="appPanel" hidden>
-  <section class="panel">
-    <p>Signed in as <strong id="who"></strong></p>
-    <button id="logout" class="secondary">Sign out</button>
-  </section>
-
-  <section class="panel">
-    <h2>👥 Private Chats</h2>
-    <p class="small">Select a user to open a private conversation.</p>
-    <div id="users">Loading users...</div>
-  </section>
-
-  <section class="panel" id="privatePanel" hidden>
-    <h2 id="privateTitle">Private conversation</h2>
-    <div id="privateMessages" aria-live="polite"></div>
-    <form id="privateForm">
-      <input id="privateInput" maxlength="2000" placeholder="Write a private message..." required>
-      <button type="submit">Send privately</button>
-    </form>
-    <button id="closePrivate" class="secondary">Close conversation</button>
-  </section>
-
-  <section class="panel">
-    <h2>🌎 Community Chat</h2>
-    <p class="small">Messages here are visible to all signed-in users.</p>
-    <div id="communityMessages" aria-live="polite"></div>
-    <form id="communityForm">
-      <input id="communityInput" maxlength="2000" placeholder="Write a community message..." required>
-      <button type="submit">Send message</button>
-    </form>
-  </section>
+<header class="topbar"><div class="brandmark">💬</div><div class="brandname">MSD Chat</div><div class="top-actions" id="topActions" hidden><button class="secondary" id="profileOpen">My profile</button><button class="secondary" id="logoutBtn">Sign out</button></div></header>
+<main class="wrap">
+<section class="card" id="authCard"><h2>Welcome to MSD Chat 👋</h2><p class="muted">Create your account or sign in to chat with people.</p><input class="field" id="displayName" maxlength="30" placeholder="Username (for new account)" autocomplete="nickname"><input class="field" id="email" type="email" placeholder="Email address" autocomplete="email"><input class="field" id="password" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password"><div class="auth-grid"><button id="registerBtn">Create account</button><button class="secondary" id="loginBtn">Sign in</button></div><p class="small">Use a display name other people can recognize. Do not use your password anywhere except sign-in.</p></section>
+<div id="homeView" hidden>
+<section class="card"><div class="profile-head"><div class="avatar" id="myAvatar">M</div><div class="profile-text"><strong id="myName">Your profile</strong><div class="small" id="myEmail"></div><div class="small"><span class="status-dot online"></span>You're online</div></div><button class="secondary" id="editProfileBtn">Edit</button></div></section>
+<section class="card"><div class="tabs"><button class="tab active" id="privateTab">👥 People</button><button class="tab" id="communityTab">🌎 Community</button></div><div id="peoplePane"><div class="section-title"><div><h2>People</h2><p class="small">Tap a person to open a full-screen private chat.</p></div><button class="secondary" id="refreshUsersBtn">Refresh</button></div><div id="userList" class="user-list"><div class="empty">Loading people…</div></div></div><div id="communityPane" hidden><h2>🌎 Community chat</h2><p class="small">Messages in this room can be read by all signed-in users.</p><div id="communityMessages" class="chat-body" style="height:44vh;min-height:220px;max-height:500px;border:1px solid var(--border);border-radius:15px;margin:12px 0;overflow:auto"></div><form id="communityForm" class="row"><input class="field" id="communityInput" maxlength="2000" placeholder="Write a community message…" required><button type="submit">Send</button></form></div></section>
 </div>
-<p id="status" role="status" aria-live="polite"></p>
+<section class="card" id="profileEditor" hidden><div class="section-title"><h2>Edit your profile</h2><button class="secondary" id="cancelProfileBtn">Close</button></div><p class="small">Choose a username and optional profile photo URL. Use a publicly accessible image URL if you add one.</p><input class="field" id="editName" maxlength="30" placeholder="Username"><input class="field" id="editPhoto" type="url" placeholder="Profile photo URL (optional)"><button id="saveProfileBtn">Save profile</button></section>
+<p class="notice" id="notice" role="status" aria-live="polite"></p><div class="footer-note">MSD Chat · Keep your account details private.</div>
 </main>
-
+<section id="chatView" hidden aria-label="Private chat"><div class="chat-head"><button class="back-btn" id="backBtn" aria-label="Back to people">‹</button><div class="chat-person"><div class="avatar" id="chatAvatar">?</div><div class="chat-person-text"><strong id="chatName">Chat</strong><small id="chatPresence">Connecting…</small></div></div><div class="chat-tools"><button id="chatProfileBtn" class="secondary">Profile</button></div></div><div class="chat-body" id="privateMessages" aria-live="polite"><div class="empty">Opening conversation…</div></div><form class="chat-compose" id="privateForm"><textarea id="privateInput" maxlength="2000" rows="1" placeholder="Message…" required></textarea><button type="submit" aria-label="Send message">➤</button></form></section>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import {
-  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteField,
-  query, orderBy, limit, onSnapshot, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+import { getFirestore, collection, doc, setDoc, getDoc, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
 
+// Existing MSD Chat Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
-  authDomain: "msd-chat-18e3a.firebaseapp.com",
-  projectId: "msd-chat-18e3a",
-  storageBucket: "msd-chat-18e3a.firebasestorage.app",
-  messagingSenderId: "159171434081",
-  appId: "1:159171434081:web:9997129ce58a5af47abc20"
+  apiKey: 'AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY',
+  authDomain: 'msd-chat-18e3a.firebaseapp.com',
+  projectId: 'msd-chat-18e3a',
+  storageBucket: 'msd-chat-18e3a.firebasestorage.app',
+  messagingSenderId: '159171434081',
+  appId: '1:159171434081:web:9997129ce58a5af47abc20'
 };
-
-const $ = id => document.getElementById(id);
-const status = $("status");
-const showStatus = message => { status.textContent = message; };
-const REACTION_CHOICES = ["❤️", "😂", "👍", "😮", "😢", "🔥"];
-const REACTION_FIELD = uid => "reactions." + uid;
-
-if (Object.values(firebaseConfig).some(v => v.startsWith("PASTE_"))) {
-  showStatus("Setup needed: insert your Firebase configuration values.");
-} else {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  let stopCommunity = null;
-  let stopUsers = null;
-  let stopPrivate = null;
-  let selectedUser = null;
-
-  function stopListener(name) {
-    if (name === "community" && stopCommunity) stopCommunity();
-    if (name === "users" && stopUsers) stopUsers();
-    if (name === "private" && stopPrivate) stopPrivate();
-    if (name === "community") stopCommunity = null;
-    if (name === "users") stopUsers = null;
-    if (name === "private") stopPrivate = null;
-  }
-
-  function makeReactionButton(emoji, count, selected, onClick, label) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "reaction-button" + (selected ? " selected" : "");
-    button.textContent = count ? `${emoji} ${count}` : emoji;
-    button.setAttribute("aria-label", label || `${emoji} reaction`);
-    button.title = label || `${emoji} reaction`;
-    button.onclick = onClick;
-    return button;
-  }
-
-  function renderMessages(container, snapshot, messageCollectionPath) {
-    container.replaceChildren();
-    const currentUser = auth.currentUser;
-
-    snapshot.forEach(item => {
-      const data = item.data();
-      const div = document.createElement("div");
-      div.className = "message";
-
-      const sender = document.createElement("strong");
-      sender.textContent = (data.senderEmail || "User") + ": ";
-
-      const body = document.createElement("div");
-      body.className = "message-text";
-      body.textContent = data.text || "";
-      div.append(sender, body);
-
-      const reactionRow = document.createElement("div");
-      reactionRow.className = "reaction-row";
-      const reactions = data.reactions && typeof data.reactions === "object" ? data.reactions : {};
-
-      REACTION_CHOICES.forEach(emoji => {
-        const usersWhoReacted = Object.entries(reactions).filter(([, value]) => value === emoji);
-        const count = usersWhoReacted.length;
-        const selected = !!currentUser && reactions[currentUser.uid] === emoji;
-        reactionRow.appendChild(makeReactionButton(emoji, count, selected, async () => {
-          const user = auth.currentUser;
-          if (!user) {
-            showStatus("Please sign in to react.");
-            return;
-          }
-          const messageRef = doc(db, ...messageCollectionPath, item.id);
-          try {
-            if (reactions[user.uid] === emoji) {
-              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: deleteField() });
-            } else {
-              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: emoji });
-            }
-            showStatus("");
-          } catch (error) {
-            showStatus("Could not save reaction: " + error.message);
-          }
-        }, `React ${emoji}; ${count} reaction${count === 1 ? "" : "s"}`));
-      });
-
-      const addButton = makeReactionButton("＋", 0, false, () => {
-        const picker = document.createElement("div");
-        picker.className = "reaction-row";
-        REACTION_CHOICES.forEach(emoji => {
-          picker.appendChild(makeReactionButton(emoji, 0, false, async () => {
-            const user = auth.currentUser;
-            if (!user) return;
-            const messageRef = doc(db, ...messageCollectionPath, item.id);
-            try {
-              await updateDoc(messageRef, { [REACTION_FIELD(user.uid)]: emoji });
-              showStatus("");
-            } catch (error) {
-              showStatus("Could not save reaction: " + error.message);
-            }
-          }, `Choose ${emoji}`));
-        });
-        if (reactionRow.nextSibling && reactionRow.nextSibling.classList.contains("reaction-picker")) {
-          reactionRow.nextSibling.remove();
-        } else {
-          picker.classList.add("reaction-picker");
-          reactionRow.after(picker);
-        }
-      }, "Choose a reaction");
-      addButton.classList.add("add-reaction");
-      reactionRow.appendChild(addButton);
-      div.appendChild(reactionRow);
-      container.appendChild(div);
-    });
-    container.scrollTop = container.scrollHeight;
-  }
-
-  $("register").onclick = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-      showStatus("Account created!");
-    } catch (e) { showStatus(e.message); }
-  };
-
-  $("login").onclick = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-      showStatus("Signed in!");
-    } catch (e) { showStatus(e.message); }
-  };
-
-  $("logout").onclick = async () => {
-    try { await signOut(auth); }
-    catch (e) { showStatus(e.message); }
-  };
-
-  onAuthStateChanged(auth, async user => {
-    stopListener("community");
-    stopListener("users");
-    stopListener("private");
-    selectedUser = null;
-    $("privatePanel").hidden = true;
-    $("authPanel").hidden = !!user;
-    $("appPanel").hidden = !user;
-    $("communityMessages").replaceChildren();
-    $("users").replaceChildren();
-
-    if (!user) {
-      $("who").textContent = "";
-      return;
-    }
-    $("who").textContent = user.email || "User";
-
-    try {
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid, email: user.email || "User", updatedAt: serverTimestamp()
-      }, { merge: true });
-
-      const communityQuery = query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(100));
-      stopCommunity = onSnapshot(communityQuery, snapshot => {
-        renderMessages($("communityMessages"), snapshot, ["messages"]);
-      }, e => showStatus("Community chat error: " + e.message));
-
-      stopUsers = onSnapshot(collection(db, "users"), snapshot => {
-        const box = $("users");
-        box.replaceChildren();
-        let found = false;
-        snapshot.forEach(item => {
-          const person = item.data();
-          if (!person.uid || person.uid === user.uid) return;
-          found = true;
-          const row = document.createElement("div");
-          row.className = "user";
-          const label = document.createElement("div");
-          label.textContent = person.email || "MSD Chat user";
-          const openButton = document.createElement("button");
-          openButton.textContent = "Open private chat";
-          openButton.onclick = () => openPrivateChat(user, person.uid, person.email || "MSD Chat user");
-          row.append(label, openButton);
-          box.append(row);
-        });
-        if (!found) {
-          box.textContent = "No other registered users found yet. Ask another user to sign in to MSD Chat once.";
-        }
-      }, e => showStatus("User list error: " + e.message));
-    } catch (e) {
-      showStatus("Setup error: " + e.message);
-    }
-  });
-
-  async function openPrivateChat(user, otherUid, otherEmail) {
-    stopListener("private");
-    selectedUser = { uid: otherUid, email: otherEmail };
-    $("privatePanel").hidden = false;
-    $("privateTitle").textContent = "Private chat with " + otherEmail;
-    $("privateMessages").replaceChildren();
-    showStatus("Opening private chat...");
-    try {
-      const members = [user.uid, otherUid].sort();
-      const chatId = members.join("__");
-      const chatRef = doc(db, "chats", chatId);
-      await setDoc(chatRef, { members, updatedAt: serverTimestamp() }, { merge: true });
-
-      const privateQuery = query(
-        collection(db, "chats", chatId, "messages"),
-        orderBy("createdAt", "asc"), limit(100)
-      );
-      stopPrivate = onSnapshot(privateQuery, snapshot => {
-        renderMessages($("privateMessages"), snapshot, ["chats", chatId, "messages"]);
-        showStatus("");
-      }, e => showStatus("Private chat error: " + e.message));
-    } catch (e) {
-      showStatus("Could not open private chat: " + e.message);
-    }
-  }
-
-  $("privateForm").onsubmit = async event => {
-    event.preventDefault();
-    const user = auth.currentUser;
-    const text = $("privateInput").value.trim();
-    if (!user || !selectedUser || !text) return;
-    const members = [user.uid, selectedUser.uid].sort();
-    const chatId = members.join("__");
-    try {
-      await addDoc(collection(db, "chats", chatId, "messages"), {
-        senderId: user.uid, senderEmail: user.email || "User", text,
-        reactions: {}, createdAt: serverTimestamp()
-      });
-      $("privateInput").value = "";
-      showStatus("");
-    } catch (e) {
-      showStatus("Could not send private message: " + e.message);
-    }
-  };
-
-  $("closePrivate").onclick = () => {
-    stopListener("private");
-    selectedUser = null;
-    $("privatePanel").hidden = true;
-  };
-
-  $("communityForm").onsubmit = async event => {
-    event.preventDefault();
-    const user = auth.currentUser;
-    const text = $("communityInput").value.trim();
-    if (!user || !text) return;
-    try {
-      await addDoc(collection(db, "messages"), {
-        senderId: user.uid, senderEmail: user.email || "User", text,
-        reactions: {}, createdAt: serverTimestamp()
-      });
-      $("communityInput").value = "";
-      showStatus("");
-    } catch (e) {
-      showStatus("Could not send community message: " + e.message);
-    }
-  };
-}
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./sw.js").catch(function (error) {
-      console.error("Service worker registration failed:", error);
-    });
-  });
-}
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+const $=id=>document.getElementById(id); let currentUser=null, profileData={}, selectedPerson=null, stopUsers=null, stopPrivate=null, stopCommunity=null, stopPresence=null, presenceTimer=null, chatId=null;
+const say=m=>{$('notice').textContent=m||''};
+function initials(name){return (name||'M').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'M'}
+function setAvatar(el,name,url){el.replaceChildren();if(url){const img=document.createElement('img');img.src=url;img.alt='';img.referrerPolicy='no-referrer';img.onerror=()=>{el.textContent=initials(name)};el.append(img)}else el.textContent=initials(name)}
+function safeTime(ts){try{const d=ts?.toDate?ts.toDate():null;return d?d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):''}catch{return ''}}
+function showApp(user){$('authCard').hidden=!!user;$('homeView').hidden=!user;$('topActions').hidden=!user;$('profileEditor').hidden=true;$('chatView').hidden=true}
+function stopListener(which){if(which==='users'&&stopUsers)stopUsers();if(which==='private'&&stopPrivate)stopPrivate();if(which==='community'&&stopCommunity)stopCommunity();if(which==='presence'&&stopPresence)stopPresence();if(which==='users')stopUsers=null;if(which==='private')stopPrivate=null;if(which==='community')stopCommunity=null;if(which==='presence')stopPresence=null}
+function renderProfile(){const name=profileData.displayName||currentUser?.displayName||currentUser?.email?.split('@')[0]||'MSD User';$('myName').textContent=name;$('myEmail').textContent=currentUser?.email||'';setAvatar($('myAvatar'),name,profileData.photoURL||currentUser?.photoURL||'');$('editName').value=name;$('editPhoto').value=profileData.photoURL||''}
+async function loadProfile(user){const snap=await getDoc(doc(db,'users',user.uid));profileData=snap.exists()?snap.data():{};if(!profileData.displayName){profileData.displayName=user.displayName||user.email?.split('@')[0]||'MSD User';await setDoc(doc(db,'users',user.uid),{uid:user.uid,email:user.email||'',displayName:profileData.displayName,photoURL:user.photoURL||'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true})}renderProfile()}
+async function setOnline(){if(!currentUser)return;try{await setDoc(doc(db,'users',currentUser.uid),{uid:currentUser.uid,email:currentUser.email||'',displayName:profileData.displayName||currentUser.displayName||currentUser.email?.split('@')[0]||'MSD User',photoURL:profileData.photoURL||currentUser.photoURL||'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true})}catch(e){console.warn('Presence update failed',e.message)}}
+async function setOffline(){if(!currentUser)return;try{await updateDoc(doc(db,'users',currentUser.uid),{online:false,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()})}catch{}}
+function watchUsers(){stopListener('users');stopUsers=onSnapshot(collection(db,'users'),snap=>{const list=$('userList');list.replaceChildren();let count=0;snap.forEach(d=>{const p=d.data();if(!p.uid||p.uid===currentUser.uid)return;count++;const btn=document.createElement('button');btn.className='user-item';btn.type='button';const av=document.createElement('div');av.className='avatar';setAvatar(av,p.displayName||p.email||'User',p.photoURL||'');const info=document.createElement('div');info.className='user-info';const name=document.createElement('strong');name.textContent=p.displayName||p.email?.split('@')[0]||'MSD User';const detail=document.createElement('small');detail.className=p.online?'online-label':'';detail.textContent=p.online?'● Online':(p.lastSeen?.toDate?'Last seen '+p.lastSeen.toDate().toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'Offline');info.append(name,detail);const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='›';btn.append(av,info,arrow);btn.onclick=()=>openPrivate(p);list.append(btn)});if(!count)list.innerHTML='<div class="empty">No other users yet. Ask a friend to create an account and sign in.</div>'},e=>say('Could not load people: '+e.message))}
+function renderMessages(container,snapshot,isPrivate=false){container.replaceChildren();if(snapshot.empty){container.innerHTML='<div class="empty">No messages yet. Say hello 👋</div>';return}snapshot.forEach(item=>{const d=item.data();const bubble=document.createElement('article');bubble.className='bubble'+(d.senderId===currentUser?.uid?' mine':'');if(!isPrivate){const author=document.createElement('div');author.className='bubble-author';author.textContent=d.senderName||d.senderEmail||'MSD User';bubble.append(author)}const body=document.createElement('div');body.className='bubble-text';body.textContent=d.text||'';bubble.append(body);const meta=document.createElement('div');meta.className='bubble-meta';meta.textContent=safeTime(d.createdAt);bubble.append(meta);const reactions=d.reactions&&typeof d.reactions==='object'?d.reactions:{};const reactionLine=document.createElement('div');reactionLine.className='reaction-line';for(const [emoji,users] of Object.entries(reactions)){if(!Array.isArray(users)||!users.length)continue;const pill=document.createElement('button');pill.type='button';pill.className='react-pill'+(users.includes(currentUser.uid)?' selected':'');pill.textContent=emoji+' '+users.length;pill.title='Tap to toggle reaction';pill.onclick=()=>toggleReaction(item.ref,emoji,users);reactionLine.append(pill)}if(reactionLine.childElementCount)bubble.append(reactionLine);const tools=document.createElement('div');tools.className='react-tools';['❤️','😂','👍','😮','😢','🔥'].forEach(emoji=>{const b=document.createElement('button');b.type='button';b.textContent=emoji;b.title='React '+emoji;b.onclick=()=>toggleReaction(item.ref,emoji,reactions[emoji]||[]);tools.append(b)});bubble.append(tools);container.append(bubble)});container.scrollTop=container.scrollHeight}
+async function toggleReaction(messageRef,emoji,users){try{const all=Array.isArray(users)?users:[];const next=all.includes(currentUser.uid)?all.filter(id=>id!==currentUser.uid):[...all,currentUser.uid];await updateDoc(messageRef,{['reactions.'+emoji]:next})}catch(e){say('Could not save reaction. Check Firestore rules: '+e.message)}}
+async function openPrivate(person){selectedPerson=person;chatId=[currentUser.uid,person.uid].sort().join('__');$('chatView').hidden=false;document.body.style.overflow='hidden';$('chatName').textContent=person.displayName||person.email?.split('@')[0]||'MSD User';setAvatar($('chatAvatar'),$('chatName').textContent,person.photoURL||'');$('chatPresence').textContent=person.online?'● Online':(person.lastSeen?.toDate?'Last seen '+person.lastSeen.toDate().toLocaleString():'Offline');$('privateMessages').innerHTML='<div class="empty">Loading conversation…</div>';stopListener('private');try{await setDoc(doc(db,'chats',chatId),{members:[currentUser.uid,person.uid].sort(),updatedAt:serverTimestamp()},{merge:true});const q=query(collection(db,'chats',chatId,'messages'),orderBy('createdAt','asc'),limit(200));stopPrivate=onSnapshot(q,s=>renderMessages($('privateMessages'),s,true),e=>say('Private chat error: '+e.message))}catch(e){say('Could not open chat: '+e.message)}}
+$('registerBtn').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value,displayName=$('displayName').value.trim();if(!displayName){say('Please enter a username first.');return}if(displayName.length<2){say('Username must be at least 2 characters.');return}try{const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName});await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,email,displayName,photoURL:'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});say('Account created! Welcome to MSD Chat.')}catch(e){say(e.message)}};
+$('loginBtn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);say('Signed in successfully.')}catch(e){say(e.message)}};
+$('logoutBtn').onclick=async()=>{await setOffline();try{await signOut(auth)}catch(e){say(e.message)}};
+$('profileOpen').onclick=$('editProfileBtn').onclick=()=>{$('profileEditor').hidden=false;$('profileEditor').scrollIntoView({behavior:'smooth',block:'start'})};$('cancelProfileBtn').onclick=()=>$('profileEditor').hidden=true;
+$('saveProfileBtn').onclick=async()=>{const displayName=$('editName').value.trim(),photoURL=$('editPhoto').value.trim();if(displayName.length<2){say('Username must be at least 2 characters.');return}if(photoURL&&!/^https?:\/\//i.test(photoURL)){say('Photo URL must start with https:// or http://');return}try{await updateProfile(currentUser,{displayName,photoURL});profileData={...profileData,displayName,photoURL};await setDoc(doc(db,'users',currentUser.uid),{uid:currentUser.uid,email:currentUser.email||'',displayName,photoURL,online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});renderProfile();$('profileEditor').hidden=true;say('Profile updated!')}catch(e){say('Could not update profile: '+e.message)}};
+$('backBtn').onclick=()=>{stopListener('private');$('chatView').hidden=true;document.body.style.overflow='';selectedPerson=null};$('chatProfileBtn').onclick=()=>{if(!selectedPerson)return;const name=selectedPerson.displayName||selectedPerson.email||'MSD User';say(name+(selectedPerson.email?' · '+selectedPerson.email:''))};
+$('privateForm').onsubmit=async e=>{e.preventDefault();const text=$('privateInput').value.trim();if(!text||!selectedPerson||!chatId)return;const send=$('privateForm').querySelector('button');send.disabled=true;try{await addDoc(collection(db,'chats',chatId,'messages'),{senderId:currentUser.uid,senderName:profileData.displayName||currentUser.displayName||currentUser.email?.split('@')[0]||'MSD User',senderEmail:currentUser.email||'',text,createdAt:serverTimestamp(),reactions:{}});$('privateInput').value='';$('privateInput').style.height='44px'}catch(e){say('Could not send message: '+e.message)}finally{send.disabled=false;$('privateInput').focus()}};
+$('privateInput').addEventListener('input',()=>{const el=$('privateInput');el.style.height='44px';el.style.height=Math.min(el.scrollHeight,120)+'px'});
+$('communityForm').onsubmit=async e=>{e.preventDefault();const text=$('communityInput').value.trim();if(!text)return;try{await addDoc(collection(db,'messages'),{senderId:currentUser.uid,senderName:profileData.displayName||currentUser.displayName||'MSD User',senderEmail:currentUser.email||'',text,createdAt:serverTimestamp(),reactions:{}});$('communityInput').value='';say('')}catch(err){say('Could not send community message: '+err.message)}};
+function startCommunity(){stopListener('community');const q=query(collection(db,'messages'),orderBy('createdAt','asc'),limit(100));stopCommunity=onSnapshot(q,s=>renderMessages($('communityMessages'),s,false),e=>say('Community chat error: '+e.message))}
+$('privateTab').onclick=()=>{$('privateTab').classList.add('active');$('communityTab').classList.remove('active');$('peoplePane').hidden=false;$('communityPane').hidden=true};$('communityTab').onclick=()=>{$('communityTab').classList.add('active');$('privateTab').classList.remove('active');$('peoplePane').hidden=true;$('communityPane').hidden=false;startCommunity()};$('refreshUsersBtn').onclick=()=>{watchUsers();say('People list refreshed.')};
+onAuthStateChanged(auth,async user=>{stopListener('users');stopListener('private');stopListener('community');stopListener('presence');if(presenceTimer)clearInterval(presenceTimer);currentUser=user;profileData={};showApp(user);if(!user){document.body.style.overflow='';return}try{await loadProfile(user);await setOnline();watchUsers();presenceTimer=setInterval(setOnline,60000);window.addEventListener('pagehide',setOffline);say('Welcome back!')}catch(e){say('Could not load your profile: '+e.message)}});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Service worker not registered',e)))}
 </script>
 </body>
 </html>
