@@ -3,74 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#10182b">
-<meta name="description" content="MSD Chat — private and community messaging">
-<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#101225">
 <title>MSD Chat</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1220;--panel:#131e30;--panel2:#18263b;--border:#2a3a52;--text:#f3f6fb;--muted:#9baac0;--brand:#20c7a5;--brand2:#138f80;--blue:#6da8ff;--danger:#ff6b78;--input:#0c1627}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}body{min-height:100dvh}button,input,textarea{font:inherit}button{border:0;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--brand2),var(--brand));font-weight:700;border-radius:13px;padding:12px 15px;min-height:44px}button:disabled{opacity:.55;cursor:not-allowed}.secondary{background:#23334a;border:1px solid #344861;box-shadow:none}.danger{background:#482531;border:1px solid #74404a}.muted{color:var(--muted)}.hidden,[hidden]{display:none!important}.topbar{height:64px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#101a2b;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}.brandmark{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#20c7a5,#4387ff);font-size:20px}.brandname{font-size:21px;font-weight:850;letter-spacing:-.5px}.top-actions{margin-left:auto;display:flex;gap:8px}.top-actions button{min-height:38px;padding:8px 11px;font-size:13px}.wrap{width:min(100%,900px);margin:22px auto;padding:0 14px 40px}.card{background:linear-gradient(145deg,#152237,#101a2a);border:1px solid var(--border);border-radius:21px;padding:21px;margin-bottom:16px;box-shadow:0 12px 34px #0002}.card h2{margin:0 0 7px;font-size:20px;letter-spacing:-.3px}.card p{margin:7px 0 13px}.field{display:block;width:100%;min-width:0;background:var(--input)!important;color:#fff!important;-webkit-text-fill-color:#fff;border:1px solid #34465f;border-radius:13px;padding:14px 15px;margin:10px 0;outline:none;caret-color:var(--brand)}.field::placeholder{color:#9baac0!important;-webkit-text-fill-color:#9baac0;opacity:1}.field:focus{border-color:var(--brand);box-shadow:0 0 0 3px #20c7a522}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.row .field{flex:1}.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-grid button{width:100%}.profile-head{display:flex;align-items:center;gap:13px}.avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#20c7a5,#5d84ff);font-weight:800;font-size:18px;color:white}.avatar img{width:100%;height:100%;object-fit:cover}.profile-text{flex:1;min-width:0}.profile-text strong,.profile-text div{display:block;overflow-wrap:anywhere}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#64748b;margin-right:5px}.status-dot.online{background:#34d399;box-shadow:0 0 0 3px #34d39920}.user-list{display:grid;gap:9px}.user-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;background:#101b2c;border:1px solid #2a3a52;border-radius:16px;color:var(--text)}.user-item:hover{border-color:#268d87;background:#14243a}.user-info{flex:1;min-width:0}.user-info strong{display:block;overflow-wrap:anywhere;word-break:normal;white-space:normal;line-height:1.35}.user-info small{display:block;color:var(--muted);margin-top:4px}.user-info .online-label{color:#50e0ad}.user-item .arrow{color:var(--muted);font-size:23px}.tabs{display:flex;gap:8px;margin-bottom:14px}.tab{flex:1;background:#1a2940;color:#c8d5e8;border:1px solid #30445e}.tab.active{background:#173d42;border-color:#208f83;color:#eafffa}.notice{min-height:22px;color:#78e7d1;font-size:13px;overflow-wrap:anywhere;padding:0 3px}.small{font-size:13px;color:var(--muted)}
-/* full-screen chat view */
-#chatView{position:fixed;inset:0;z-index:1000;background:#0b1220;display:flex;flex-direction:column;height:100dvh;width:100%;padding:0;margin:0;border:0;border-radius:0;overflow:hidden}
-.chat-head{height:68px;min-height:68px;display:flex;align-items:center;gap:10px;padding:8px 12px;background:#101b2c;border-bottom:1px solid var(--border);padding-top:max(8px,env(safe-area-inset-top))}.back-btn{width:42px;min-width:42px;height:42px;min-height:42px;padding:0;background:transparent;border:1px solid #30445e;font-size:27px;line-height:1;border-radius:50%}.chat-person{display:flex;align-items:center;gap:10px;min-width:0;flex:1}.chat-person .avatar{width:42px;height:42px;flex-basis:42px}.chat-person-text{min-width:0}.chat-person-text strong{display:block;overflow-wrap:anywhere;line-height:1.25}.chat-person-text small{color:var(--muted)}.chat-tools{display:flex;gap:5px}.chat-tools button{padding:8px 10px;min-height:38px;background:#23334a;font-size:13px}.chat-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 12px 20px;background:radial-gradient(ellipse at top,#17213a 0%,#0b1220 60%)}.day-note{text-align:center;font-size:11px;color:var(--muted);margin:5px auto 14px;background:#16243a;border-radius:20px;padding:5px 11px;width:max-content;max-width:90%}.bubble{position:relative;width:fit-content;max-width:min(86%,560px);padding:10px 12px 8px;margin:8px 0;border-radius:17px 17px 17px 5px;background:#1b2b42;border:1px solid #2d415b;overflow-wrap:anywhere;box-shadow:0 3px 10px #0002}.bubble.mine{margin-left:auto;background:#125d57;border-color:#1b776e;border-radius:17px 17px 5px 17px}.bubble-author{font-size:11px;font-weight:800;color:#79e8d1;margin-bottom:4px}.bubble-text{white-space:pre-wrap;word-break:break-word;line-height:1.45}.bubble-meta{font-size:10px;color:#c0ccdc;text-align:right;margin-top:5px}.reaction-line{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.react-pill{background:#0c1728;border:1px solid #41536c;border-radius:20px;padding:3px 7px;min-height:27px;font-size:12px}.react-pill.selected{border-color:#20c7a5;background:#16443f}.react-tools{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}.react-tools button{min-height:28px;padding:2px 7px;border-radius:20px;background:#24364c;font-size:15px;box-shadow:none}.chat-compose{display:flex;align-items:flex-end;gap:8px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:#101b2c;border-top:1px solid var(--border)}.chat-compose textarea{flex:1;resize:none;max-height:120px;min-height:44px;margin:0;background:#0b1525!important;color:#fff!important;-webkit-text-fill-color:#fff;border:1px solid #34465f;border-radius:22px;padding:11px 14px;line-height:1.35;outline:none}.chat-compose textarea::placeholder{color:#9baac0!important;-webkit-text-fill-color:#9baac0}.chat-compose button{min-width:54px;width:54px;height:44px;padding:0;border-radius:50%;font-size:18px}.empty{padding:28px 12px;text-align:center;color:var(--muted)}.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.edit-grid .field{margin:4px 0}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.section-title button{width:auto;min-height:36px;padding:7px 10px;font-size:12px}.footer-note{text-align:center;color:#718198;font-size:11px;padding:12px}
-@media(max-width:520px){.wrap{margin:13px auto;padding:0 10px 26px}.card{padding:16px;border-radius:18px}.topbar{padding:0 12px}.brandname{font-size:19px}.auth-grid{grid-template-columns:1fr 1fr}.chat-head{height:64px;min-height:64px}.chat-body{padding:11px 9px 16px}.bubble{max-width:91%}.chat-tools button{font-size:12px;padding:7px}.edit-grid{grid-template-columns:1fr}.profile-head{align-items:flex-start}}
+:root{color-scheme:dark;--bg:#101225;--panel:#191c33;--panel2:#222640;--text:#f5f6ff;--muted:#a9aecb;--accent:#8175ff;--accent2:#5e54d9;--border:#343956;--mine:#5148a8;--theirs:#252a43;--danger:#ff737d;--success:#58d6a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}input,textarea,select{width:100%;border:1px solid var(--border);background:#111429;color:var(--text);border-radius:12px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent)}button{border:0;border-radius:10px;padding:10px 13px;background:var(--panel2);color:var(--text)}button:hover{filter:brightness(1.12)}.primary{background:var(--accent);color:white;font-weight:700}.secondary{border:1px solid var(--border);background:transparent}.danger{color:#fff;background:#b53c51}.muted{color:var(--muted)}.small{font-size:12px}.hidden{display:none!important}.full{width:100%}.error{color:#ff9aa2;white-space:pre-wrap}.success{color:var(--success)}label{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
+.auth-screen{min-height:100dvh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top,#272653 0,var(--bg) 55%)}.auth-card{width:min(100%,420px);padding:26px;border:1px solid var(--border);border-radius:22px;background:rgba(25,28,51,.97);box-shadow:0 20px 60px #0005}.logo{width:54px;height:54px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(135deg,#9b91ff,#5b4fe1);font-weight:900;font-size:18px;margin-bottom:12px}.auth-card h1{margin:0}.auth-card p{margin-top:6px}.auth-tabs{display:flex;gap:8px;margin:22px 0}.auth-tabs button{flex:1}.auth-tabs .active{background:var(--accent)}.auth-card form .primary{margin-top:18px}
+.app{height:100dvh;min-height:520px;display:grid;grid-template-columns:340px minmax(0,1fr);overflow:hidden}.sidebar{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:0}.side-head{padding:16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.brand{display:flex;align-items:center;gap:10px}.brand .logo{width:40px;height:40px;margin:0;border-radius:12px}.brand h2{font-size:18px;margin:0}.profile-strip{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);min-width:0}.profile-strip .details{flex:1;min-width:0}.profile-strip strong,.profile-strip span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.avatar{width:43px;height:43px;border-radius:50%;background:#48456f;display:grid;place-items:center;flex:none;overflow:hidden;font-weight:700}.avatar img{width:100%;height:100%;object-fit:cover}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:10px}.nav button{padding:10px 4px;font-size:13px}.nav button.active{background:var(--accent)}.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:20px;background:#ff6477;color:white;font-size:11px;padding:0 4px}.panel{display:flex;flex-direction:column;min-height:0;flex:1}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:6px 14px}.panel-head h3{margin:8px 0;font-size:16px}.search{padding:0 12px 10px}.list{overflow:auto;min-height:0;flex:1;padding:0 7px 10px}.person-row{display:flex;align-items:center;gap:10px;padding:11px 8px;border-radius:12px;cursor:pointer;min-width:0}.person-row:hover,.person-row.selected{background:var(--panel2)}.person-row .details{flex:1;min-width:0}.person-row strong,.person-row .preview{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.person-row .preview{font-size:12px;color:var(--muted);margin-top:3px}.row-actions{display:flex;gap:5px;flex-wrap:wrap}.row-actions button{font-size:12px;padding:7px}.empty{padding:28px 12px;text-align:center;color:var(--muted)}.sidebar-foot{padding:12px 14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px}
+.chat{display:flex;flex-direction:column;min-width:0;min-height:0;position:relative;background:var(--bg)}.welcome{margin:auto;text-align:center;padding:25px;max-width:430px}.welcome .big{font-size:55px}.welcome h2{margin-bottom:6px}.chat-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--border);min-height:72px}.chat-head .who{flex:1;min-width:0}.chat-head h3{margin:0;font-size:16px}.chat-head .status{font-size:12px;color:var(--muted)}.head-actions{display:flex;gap:6px}.messages{flex:1;min-height:0;overflow:auto;padding:18px clamp(10px,3vw,32px);display:flex;flex-direction:column;gap:9px}.day-divider{text-align:center;margin:12px auto;padding:5px 12px;border-radius:20px;background:var(--panel);font-size:12px;color:var(--muted)}.bubble-row{display:flex;flex-direction:column;max-width:min(78%,620px);align-self:flex-start}.bubble-row.mine{align-self:flex-end;align-items:flex-end}.bubble{background:var(--theirs);padding:10px 12px;border-radius:15px 15px 15px 4px;overflow-wrap:anywhere;white-space:pre-wrap}.mine .bubble{background:var(--mine);border-radius:15px 15px 4px 15px}.bubble-meta{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted);margin:4px 3px 0}.message-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.message-actions button{font-size:11px;padding:5px 7px}.reactions{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}.reaction{border:1px solid var(--border);border-radius:20px;padding:3px 7px;font-size:12px;background:var(--panel)}.reply-quote{border-left:3px solid var(--accent);padding:5px 8px;background:#0002;border-radius:4px;margin-bottom:6px;font-size:12px;color:#dedbff}.typing{height:22px;padding:0 18px;color:var(--muted);font-size:12px}.composer-wrap{padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--panel);border-top:1px solid var(--border)}.reply-preview{display:flex;align-items:center;justify-content:space-between;background:var(--panel2);padding:8px 10px;border-radius:10px;margin-bottom:8px}.reply-preview div{min-width:0}.reply-preview strong,.reply-preview span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.composer{display:flex;align-items:flex-end;gap:8px}.composer textarea{resize:none;max-height:130px;min-height:44px;flex:1}.send{height:44px;background:var(--accent);font-size:20px}.emoji-panel{display:flex;gap:5px;flex-wrap:wrap;padding:10px 0 0}.emoji-panel button{font-size:21px;padding:5px;background:transparent}.mobile-only{display:none}
+.modal-backdrop{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:18px;z-index:10}.modal{width:min(100%,450px);max-height:90dvh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 20px 80px #0007}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head h2{font-size:20px;margin:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.toast-root{position:fixed;right:12px;top:12px;z-index:30;display:flex;flex-direction:column;gap:8px}.toast{padding:12px 16px;border:1px solid var(--border);background:var(--panel2);border-radius:12px;max-width:min(90vw,360px);box-shadow:0 8px 30px #0005}.light{color-scheme:light;--bg:#f2f3fa;--panel:#fff;--panel2:#e9eafa;--text:#20213a;--muted:#666b85;--border:#d8daea;--mine:#d9d4ff;--theirs:#fff}.light input,.light textarea,.light select{background:#fff;color:#20213a}
+@media(max-width:720px){.app{grid-template-columns:minmax(0,1fr)}.sidebar{grid-column:1;grid-row:1}.chat{display:none;grid-column:1;grid-row:1}.app.chat-open .sidebar{display:none}.app.chat-open .chat{display:flex}.mobile-only{display:inline-block}.sidebar{border-right:0}.bubble-row{max-width:88%}.chat-head{padding:10px}.messages{padding:12px}.side-head{padding:12px}.nav button{font-size:12px}.profile-strip{padding:9px 12px}}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="brandmark">💬</div><div class="brandname">MSD Chat</div><div class="top-actions" id="topActions" hidden><button class="secondary" id="profileOpen">My profile</button><button class="secondary" id="logoutBtn">Sign out</button></div></header>
-<main class="wrap">
-<section class="card" id="authCard"><h2>Welcome to MSD Chat 👋</h2><p class="muted">Create your account or sign in to chat with people.</p><input class="field" id="displayName" maxlength="30" placeholder="Username (for new account)" autocomplete="nickname"><input class="field" id="email" type="email" placeholder="Email address" autocomplete="email"><input class="field" id="password" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password"><div class="auth-grid"><button id="registerBtn">Create account</button><button class="secondary" id="loginBtn">Sign in</button></div><p class="small">Use a display name other people can recognize. Do not use your password anywhere except sign-in.</p></section>
-<div id="homeView" hidden>
-<section class="card"><div class="profile-head"><div class="avatar" id="myAvatar">M</div><div class="profile-text"><strong id="myName">Your profile</strong><div class="small" id="myEmail"></div><div class="small"><span class="status-dot online"></span>You're online</div></div><button class="secondary" id="editProfileBtn">Edit</button></div></section>
-<section class="card"><div class="tabs"><button class="tab active" id="privateTab">👥 People</button><button class="tab" id="communityTab">🌎 Community</button></div><div id="peoplePane"><div class="section-title"><div><h2>People</h2><p class="small">Tap a person to open a full-screen private chat.</p></div><button class="secondary" id="refreshUsersBtn">Refresh</button></div><div id="userList" class="user-list"><div class="empty">Loading people…</div></div></div><div id="communityPane" hidden><h2>🌎 Community chat</h2><p class="small">Messages in this room can be read by all signed-in users.</p><div id="communityMessages" class="chat-body" style="height:44vh;min-height:220px;max-height:500px;border:1px solid var(--border);border-radius:15px;margin:12px 0;overflow:auto"></div><form id="communityForm" class="row"><input class="field" id="communityInput" maxlength="2000" placeholder="Write a community message…" required><button type="submit">Send</button></form></div></section>
-</div>
-<section class="card" id="profileEditor" hidden><div class="section-title"><h2>Edit your profile</h2><button class="secondary" id="cancelProfileBtn">Close</button></div><p class="small">Choose a username and optional profile photo URL. Use a publicly accessible image URL if you add one.</p><input class="field" id="editName" maxlength="30" placeholder="Username"><input class="field" id="editPhoto" type="url" placeholder="Profile photo URL (optional)"><button id="saveProfileBtn">Save profile</button></section>
-<p class="notice" id="notice" role="status" aria-live="polite"></p><div class="footer-note">MSD Chat · Keep your account details private.</div>
-</main>
-<section id="chatView" hidden aria-label="Private chat"><div class="chat-head"><button class="back-btn" id="backBtn" aria-label="Back to people">‹</button><div class="chat-person"><div class="avatar" id="chatAvatar">?</div><div class="chat-person-text"><strong id="chatName">Chat</strong><small id="chatPresence">Connecting…</small></div></div><div class="chat-tools"><button id="chatProfileBtn" class="secondary">Profile</button></div></div><div class="chat-body" id="privateMessages" aria-live="polite"><div class="empty">Opening conversation…</div></div><form class="chat-compose" id="privateForm"><textarea id="privateInput" maxlength="2000" rows="1" placeholder="Message…" required></textarea><button type="submit" aria-label="Send message">➤</button></form></section>
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
-import { getFirestore, collection, doc, setDoc, getDoc, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+<div id="toastRoot" class="toast-root"></div>
 
-// Existing MSD Chat Firebase configuration
+<section id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="logo">MSD</div><h1>MSD Chat</h1>
+    <p class="muted">Private conversations with your contacts.</p>
+    <div class="auth-tabs"><button id="loginTab" class="active" type="button">Login</button><button id="registerTab" type="button">Create Account</button></div>
+    <form id="authForm">
+      <div id="nameWrap" class="hidden"><label for="authName">Your name</label><input id="authName" maxlength="40" autocomplete="name" placeholder="Your name"></div>
+      <label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+      <label for="authPassword">Password</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required placeholder="At least 6 characters">
+      <button id="authSubmit" class="primary full" type="submit" style="margin-top:16px">Login</button>
+    </form><p id="authError" class="error"></p>
+  </div>
+</section>
+
+<main id="appScreen" class="app hidden">
+  <aside class="sidebar">
+    <header class="side-head"><div class="brand"><div class="logo">MSD</div><div><h2>MSD Chat</h2><span class="muted small">Messages and contacts</span></div></div><button id="profileButton" title="My profile">👤</button></header>
+    <div class="profile-strip"><div id="myAvatar" class="avatar">M</div><div class="details"><strong id="myName">My profile</strong><span id="myId" class="muted small">MSD ID loading…</span></div><button id="settingsButton" title="Settings">⚙️</button></div>
+    <nav class="nav"><button class="active" data-tab="chats">💬 Chats</button><button data-tab="requests">👥 Requests <span id="requestBadge" class="badge hidden">0</span></button><button data-tab="people">🔎 Find People</button></nav>
+    <section id="chatsPanel" class="panel"><div class="panel-head"><h3>Your chats</h3><button id="refreshButton" title="Refresh">↻</button></div><div class="search"><input id="chatSearch" placeholder="Search contacts…" type="search"></div><div id="chatList" class="list"><div class="empty">Your accepted contacts will appear here.</div></div></section>
+    <section id="requestsPanel" class="panel hidden"><div class="panel-head"><h3>Friend requests</h3></div><div class="list"><p class="muted small">Received</p><div id="receivedList"></div><p class="muted small">Sent</p><div id="sentList"></div></div></section>
+    <section id="peoplePanel" class="panel hidden"><div class="panel-head"><h3>Find people</h3></div><div class="search"><form id="peopleForm" style="display:flex;gap:6px"><input id="peopleQuery" required placeholder="Name, email, or MSD ID"><button class="primary" type="submit">Go</button></form><p class="muted small">Only search results are shown here. Your chat list contains accepted contacts only.</p></div><div id="peopleResults" class="list"><div class="empty">Search by name or unique MSD ID.</div></div></section>
+    <footer class="sidebar-foot"><span>● Connected account</span><button id="logoutButton" class="secondary">Logout</button></footer>
+  </aside>
+
+  <section class="chat">
+    <div id="welcome" class="welcome"><div class="big">💬</div><h2>Welcome to MSD Chat</h2><p class="muted">Choose an accepted contact to start chatting, or find people to send a request.</p><button id="welcomePeople" class="primary">Find people</button></div>
+    <div id="conversation" class="hidden" style="display:flex;flex-direction:column;min-height:0;flex:1">
+      <header class="chat-head"><button id="backButton" class="mobile-only">←</button><div id="peerAvatar" class="avatar">?</div><div class="who"><h3 id="peerName">Conversation</h3><div id="peerStatus" class="status">Private chat</div></div><div class="head-actions"><button id="messageSearchButton" title="Search messages">🔎</button><button id="chatMenuButton" title="Conversation options">⋮</button></div></header>
+      <div id="messageSearchWrap" class="search hidden" style="padding-top:8px"><input id="messageSearch" type="search" placeholder="Search loaded messages…"></div>
+      <div id="messages" class="messages"><div class="empty">Loading messages…</div></div>
+      <div id="typing" class="typing"></div>
+      <div class="composer-wrap">
+        <div id="replyPreview" class="reply-preview hidden"><div><strong id="replyName">Replying</strong><span id="replyText" class="muted small"></span></div><button id="cancelReply">✕</button></div>
+        <div id="editBar" class="reply-preview hidden"><strong>Editing message</strong><button id="cancelEdit">Cancel</button></div>
+        <form id="messageForm" class="composer"><button id="emojiButton" type="button" title="Emoji">😊</button><textarea id="messageInput" rows="1" maxlength="10000" placeholder="Type a message…" aria-label="Message"></textarea><button class="send" type="submit" aria-label="Send">➤</button></form>
+        <div id="emojiPanel" class="emoji-panel hidden"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="profileModal" class="modal-backdrop hidden"><section class="modal"><div class="modal-head"><h2>My profile</h2><button data-close="profileModal">✕</button></div><form id="profileForm"><label for="profileName">Display name</label><input id="profileName" maxlength="40" required><label for="profilePhoto">Profile photo URL (optional)</label><input id="profilePhoto" type="url" placeholder="https://…"><label for="profileAbout">About (optional)</label><input id="profileAbout" maxlength="120" placeholder="A little about you"><div style="margin:14px 0;padding:12px;background:var(--panel2);border-radius:10px"><span class="muted small">Your MSD ID</span><strong id="profileId" style="display:block;overflow-wrap:anywhere"></strong><button id="copyIdButton" type="button" style="margin-top:8px">Copy ID</button></div><button class="primary full" type="submit">Save profile</button></form></section></div>
+
+<div id="settingsModal" class="modal-backdrop hidden"><section class="modal"><div class="modal-head"><h2>Settings</h2><button data-close="settingsModal">✕</button></div><form id="settingsForm"><label for="theme">Theme</label><select id="theme"><option value="dark">Dark</option><option value="light">Light</option></select><label for="fontSize">Message size</label><select id="fontSize"><option value="small">Small</option><option value="medium" selected>Medium</option><option value="large">Large</option></select><label for="wallpaper">Chat background</label><select id="wallpaper"><option value="default">Default</option><option value="plain">Plain</option><option value="gradient">Gradient</option></select><button class="primary full" style="margin-top:16px">Save settings</button></form></section></div>
+
+<div id="confirmModal" class="modal-backdrop hidden"><section class="modal"><div class="modal-head"><h2 id="confirmTitle">Confirm</h2><button data-close="confirmModal">✕</button></div><p id="confirmText"></p><div class="modal-actions"><button data-close="confirmModal" class="secondary">Cancel</button><button id="confirmYes" class="primary">Confirm</button></div></section></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, collection, query, where, getDocs, onSnapshot, orderBy, serverTimestamp, writeBatch, deleteDoc, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY',
-  authDomain: 'msd-chat-18e3a.firebaseapp.com',
-  projectId: 'msd-chat-18e3a',
-  storageBucket: 'msd-chat-18e3a.firebasestorage.app',
-  messagingSenderId: '159171434081',
-  appId: '1:159171434081:web:9997129ce58a5af47abc20'
+  apiKey: "AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",
+  authDomain: "msd-chat-18e3a.firebaseapp.com",
+  projectId: "msd-chat-18e3a",
+  storageBucket: "msd-chat-18e3a.firebasestorage.app",
+  messagingSenderId: "159171434081",
+  appId: "1:159171434081:web:9997129ce58a5af47abc20"
 };
-const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
-const $=id=>document.getElementById(id); let currentUser=null, profileData={}, selectedPerson=null, stopUsers=null, stopPrivate=null, stopCommunity=null, stopPresence=null, presenceTimer=null, chatId=null;
-const say=m=>{$('notice').textContent=m||''};
-function initials(name){return (name||'M').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'M'}
-function setAvatar(el,name,url){el.replaceChildren();if(url){const img=document.createElement('img');img.src=url;img.alt='';img.referrerPolicy='no-referrer';img.onerror=()=>{el.textContent=initials(name)};el.append(img)}else el.textContent=initials(name)}
-function safeTime(ts){try{const d=ts?.toDate?ts.toDate():null;return d?d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):''}catch{return ''}}
-function showApp(user){$('authCard').hidden=!!user;$('homeView').hidden=!user;$('topActions').hidden=!user;$('profileEditor').hidden=true;$('chatView').hidden=true}
-function stopListener(which){if(which==='users'&&stopUsers)stopUsers();if(which==='private'&&stopPrivate)stopPrivate();if(which==='community'&&stopCommunity)stopCommunity();if(which==='presence'&&stopPresence)stopPresence();if(which==='users')stopUsers=null;if(which==='private')stopPrivate=null;if(which==='community')stopCommunity=null;if(which==='presence')stopPresence=null}
-function renderProfile(){const name=profileData.displayName||currentUser?.displayName||currentUser?.email?.split('@')[0]||'MSD User';$('myName').textContent=name;$('myEmail').textContent=currentUser?.email||'';setAvatar($('myAvatar'),name,profileData.photoURL||currentUser?.photoURL||'');$('editName').value=name;$('editPhoto').value=profileData.photoURL||''}
-async function loadProfile(user){const snap=await getDoc(doc(db,'users',user.uid));profileData=snap.exists()?snap.data():{};if(!profileData.displayName){profileData.displayName=user.displayName||user.email?.split('@')[0]||'MSD User';await setDoc(doc(db,'users',user.uid),{uid:user.uid,email:user.email||'',displayName:profileData.displayName,photoURL:user.photoURL||'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true})}renderProfile()}
-async function setOnline(){if(!currentUser)return;try{await setDoc(doc(db,'users',currentUser.uid),{uid:currentUser.uid,email:currentUser.email||'',displayName:profileData.displayName||currentUser.displayName||currentUser.email?.split('@')[0]||'MSD User',photoURL:profileData.photoURL||currentUser.photoURL||'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true})}catch(e){console.warn('Presence update failed',e.message)}}
-async function setOffline(){if(!currentUser)return;try{await updateDoc(doc(db,'users',currentUser.uid),{online:false,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()})}catch{}}
-function watchUsers(){stopListener('users');stopUsers=onSnapshot(collection(db,'users'),snap=>{const list=$('userList');list.replaceChildren();let count=0;snap.forEach(d=>{const p=d.data();if(!p.uid||p.uid===currentUser.uid)return;count++;const btn=document.createElement('button');btn.className='user-item';btn.type='button';const av=document.createElement('div');av.className='avatar';setAvatar(av,p.displayName||p.email||'User',p.photoURL||'');const info=document.createElement('div');info.className='user-info';const name=document.createElement('strong');name.textContent=p.displayName||p.email?.split('@')[0]||'MSD User';const detail=document.createElement('small');detail.className=p.online?'online-label':'';detail.textContent=p.online?'● Online':(p.lastSeen?.toDate?'Last seen '+p.lastSeen.toDate().toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'Offline');info.append(name,detail);const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='›';btn.append(av,info,arrow);btn.onclick=()=>openPrivate(p);list.append(btn)});if(!count)list.innerHTML='<div class="empty">No other users yet. Ask a friend to create an account and sign in.</div>'},e=>say('Could not load people: '+e.message))}
-function renderMessages(container,snapshot,isPrivate=false){container.replaceChildren();if(snapshot.empty){container.innerHTML='<div class="empty">No messages yet. Say hello 👋</div>';return}snapshot.forEach(item=>{const d=item.data();const bubble=document.createElement('article');bubble.className='bubble'+(d.senderId===currentUser?.uid?' mine':'');if(!isPrivate){const author=document.createElement('div');author.className='bubble-author';author.textContent=d.senderName||d.senderEmail||'MSD User';bubble.append(author)}const body=document.createElement('div');body.className='bubble-text';body.textContent=d.text||'';bubble.append(body);const meta=document.createElement('div');meta.className='bubble-meta';meta.textContent=safeTime(d.createdAt);bubble.append(meta);const reactions=d.reactions&&typeof d.reactions==='object'?d.reactions:{};const reactionLine=document.createElement('div');reactionLine.className='reaction-line';for(const [emoji,users] of Object.entries(reactions)){if(!Array.isArray(users)||!users.length)continue;const pill=document.createElement('button');pill.type='button';pill.className='react-pill'+(users.includes(currentUser.uid)?' selected':'');pill.textContent=emoji+' '+users.length;pill.title='Tap to toggle reaction';pill.onclick=()=>toggleReaction(item.ref,emoji,users);reactionLine.append(pill)}if(reactionLine.childElementCount)bubble.append(reactionLine);const tools=document.createElement('div');tools.className='react-tools';['❤️','😂','👍','😮','😢','🔥'].forEach(emoji=>{const b=document.createElement('button');b.type='button';b.textContent=emoji;b.title='React '+emoji;b.onclick=()=>toggleReaction(item.ref,emoji,reactions[emoji]||[]);tools.append(b)});bubble.append(tools);container.append(bubble)});container.scrollTop=container.scrollHeight}
-async function toggleReaction(messageRef,emoji,users){try{const all=Array.isArray(users)?users:[];const next=all.includes(currentUser.uid)?all.filter(id=>id!==currentUser.uid):[...all,currentUser.uid];await updateDoc(messageRef,{['reactions.'+emoji]:next})}catch(e){say('Could not save reaction. Check Firestore rules: '+e.message)}}
-async function openPrivate(person){selectedPerson=person;chatId=[currentUser.uid,person.uid].sort().join('__');$('chatView').hidden=false;document.body.style.overflow='hidden';$('chatName').textContent=person.displayName||person.email?.split('@')[0]||'MSD User';setAvatar($('chatAvatar'),$('chatName').textContent,person.photoURL||'');$('chatPresence').textContent=person.online?'● Online':(person.lastSeen?.toDate?'Last seen '+person.lastSeen.toDate().toLocaleString():'Offline');$('privateMessages').innerHTML='<div class="empty">Loading conversation…</div>';stopListener('private');try{await setDoc(doc(db,'chats',chatId),{members:[currentUser.uid,person.uid].sort(),updatedAt:serverTimestamp()},{merge:true});const q=query(collection(db,'chats',chatId,'messages'),orderBy('createdAt','asc'),limit(200));stopPrivate=onSnapshot(q,s=>renderMessages($('privateMessages'),s,true),e=>say('Private chat error: '+e.message))}catch(e){say('Could not open chat: '+e.message)}}
-$('registerBtn').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value,displayName=$('displayName').value.trim();if(!displayName){say('Please enter a username first.');return}if(displayName.length<2){say('Username must be at least 2 characters.');return}try{const cred=await createUserWithEmailAndPassword(auth,email,password);await updateProfile(cred.user,{displayName});await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,email,displayName,photoURL:'',online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});say('Account created! Welcome to MSD Chat.')}catch(e){say(e.message)}};
-$('loginBtn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);say('Signed in successfully.')}catch(e){say(e.message)}};
-$('logoutBtn').onclick=async()=>{await setOffline();try{await signOut(auth)}catch(e){say(e.message)}};
-$('profileOpen').onclick=$('editProfileBtn').onclick=()=>{$('profileEditor').hidden=false;$('profileEditor').scrollIntoView({behavior:'smooth',block:'start'})};$('cancelProfileBtn').onclick=()=>$('profileEditor').hidden=true;
-$('saveProfileBtn').onclick=async()=>{const displayName=$('editName').value.trim(),photoURL=$('editPhoto').value.trim();if(displayName.length<2){say('Username must be at least 2 characters.');return}if(photoURL&&!/^https?:\/\//i.test(photoURL)){say('Photo URL must start with https:// or http://');return}try{await updateProfile(currentUser,{displayName,photoURL});profileData={...profileData,displayName,photoURL};await setDoc(doc(db,'users',currentUser.uid),{uid:currentUser.uid,email:currentUser.email||'',displayName,photoURL,online:true,lastSeen:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});renderProfile();$('profileEditor').hidden=true;say('Profile updated!')}catch(e){say('Could not update profile: '+e.message)}};
-$('backBtn').onclick=()=>{stopListener('private');$('chatView').hidden=true;document.body.style.overflow='';selectedPerson=null};$('chatProfileBtn').onclick=()=>{if(!selectedPerson)return;const name=selectedPerson.displayName||selectedPerson.email||'MSD User';say(name+(selectedPerson.email?' · '+selectedPerson.email:''))};
-$('privateForm').onsubmit=async e=>{e.preventDefault();const text=$('privateInput').value.trim();if(!text||!selectedPerson||!chatId)return;const send=$('privateForm').querySelector('button');send.disabled=true;try{await addDoc(collection(db,'chats',chatId,'messages'),{senderId:currentUser.uid,senderName:profileData.displayName||currentUser.displayName||currentUser.email?.split('@')[0]||'MSD User',senderEmail:currentUser.email||'',text,createdAt:serverTimestamp(),reactions:{}});$('privateInput').value='';$('privateInput').style.height='44px'}catch(e){say('Could not send message: '+e.message)}finally{send.disabled=false;$('privateInput').focus()}};
-$('privateInput').addEventListener('input',()=>{const el=$('privateInput');el.style.height='44px';el.style.height=Math.min(el.scrollHeight,120)+'px'});
-$('communityForm').onsubmit=async e=>{e.preventDefault();const text=$('communityInput').value.trim();if(!text)return;try{await addDoc(collection(db,'messages'),{senderId:currentUser.uid,senderName:profileData.displayName||currentUser.displayName||'MSD User',senderEmail:currentUser.email||'',text,createdAt:serverTimestamp(),reactions:{}});$('communityInput').value='';say('')}catch(err){say('Could not send community message: '+err.message)}};
-function startCommunity(){stopListener('community');const q=query(collection(db,'messages'),orderBy('createdAt','asc'),limit(100));stopCommunity=onSnapshot(q,s=>renderMessages($('communityMessages'),s,false),e=>say('Community chat error: '+e.message))}
-$('privateTab').onclick=()=>{$('privateTab').classList.add('active');$('communityTab').classList.remove('active');$('peoplePane').hidden=false;$('communityPane').hidden=true};$('communityTab').onclick=()=>{$('communityTab').classList.add('active');$('privateTab').classList.remove('active');$('peoplePane').hidden=true;$('communityPane').hidden=false;startCommunity()};$('refreshUsersBtn').onclick=()=>{watchUsers();say('People list refreshed.')};
-onAuthStateChanged(auth,async user=>{stopListener('users');stopListener('private');stopListener('community');stopListener('presence');if(presenceTimer)clearInterval(presenceTimer);currentUser=user;profileData={};showApp(user);if(!user){document.body.style.overflow='';return}try{await loadProfile(user);await setOnline();watchUsers();presenceTimer=setInterval(setOnline,60000);window.addEventListener('pagehide',setOffline);say('Welcome back!')}catch(e){say('Could not load your profile: '+e.message)}});
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Service worker not registered',e)))}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+let currentUser = null, myProfile = null, authMode = "login";
+let friends = new Map(), requestDocs = [], activePeer = null, activeChatId = null;
+let stopFriends = null, stopRequests = null, stopMessages = null, stopTyping = null;
+let pendingReply = null, editingMessage = null, messageCache = [], confirmAction = null;
+let typingTimer = null, typingWriteTimer = null;
+const unsubscribers = [];
+const EMOJIS = ["😀","😃","😄","😁","😆","🥹","😂","🤣","😊","😍","🥰","😘","😎","🤔","😭","😡","👍","👎","❤️","🔥","🎉","🙏","👏","💯","🤝","💖","😴","🤗","🙌","✅"];
+
+function toast(message){const el=document.createElement("div");el.className="toast";el.textContent=message;$("toastRoot").appendChild(el);setTimeout(()=>el.remove(),3800)}
+function safeText(value){return String(value??"")}
+function initials(name){return safeText(name).trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"?"}
+function avatar(el, person){el.replaceChildren();const url=person?.photoURL;if(url){const img=document.createElement("img");img.src=url;img.alt="";img.referrerPolicy="no-referrer";img.onerror=()=>{el.textContent=initials(person?.displayName||person?.name)};el.appendChild(img)}else el.textContent=initials(person?.displayName||person?.name)}
+function dateOf(ts){try{return ts?.toDate?ts.toDate():ts?new Date(ts):null}catch{return null}}
+function formatTime(ts){const d=dateOf(ts);return d?d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}):"now"}
+function formatDay(ts){const d=dateOf(ts);return d?d.toLocaleDateString([], {weekday:"short",month:"short",day:"numeric"}):"Today"}
+function chatIdFor(a,b){return [a,b].sort().join("_")}
+function errorMessage(err){console.error(err);return err?.message||"Something went wrong. Please try again."}
+function setTab(tab){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));$("chatsPanel").classList.toggle("hidden",tab!=="chats");$("requestsPanel").classList.toggle("hidden",tab!=="requests");$("peoplePanel").classList.toggle("hidden",tab!=="people")}
+function showModal(id){$(id).classList.remove("hidden")}
+function hideModal(id){$(id).classList.add("hidden")}
+function makeEl(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function emptyBox(text){return makeEl("div","empty",text)}
+function getMsdId(uid){return "MSD-"+uid.replace(/[^a-zA-Z0-9]/g,"").slice(-12).toUpperCase()}
+function showAuthError(text){$("authError").textContent=text||""}
+function setAuthMode(mode){authMode=mode;$("loginTab").classList.toggle("active",mode==="login");$("registerTab").classList.toggle("active",mode==="register");$("nameWrap").classList.toggle("hidden",mode!=="register");$("authName").required=mode==="register";$("authSubmit").textContent=mode==="login"?"Login":"Create account";$("authPassword").autocomplete=mode==="login"?"current-password":"new-password";showAuthError("")}
+$("loginTab").onclick=()=>setAuthMode("login");$("registerTab").onclick=()=>setAuthMode("register");
+
+$("authForm").addEventListener("submit",async e=>{
+ e.preventDefault();showAuthError("");const email=$("authEmail").value.trim().toLowerCase(),password=$("authPassword").value,name=$("authName").value.trim();
+ $("authSubmit").disabled=true;
+ try{
+  if(authMode==="register"){
+   if(name.length<2)throw new Error("Please enter a name with at least 2 characters.");
+   const cred=await createUserWithEmailAndPassword(auth,email,password);
+   await updateProfile(cred.user,{displayName:name});
+   const msdId=getMsdId(cred.user.uid);
+   await setDoc(doc(db,"users",cred.user.uid),{uid:cred.user.uid,email,displayName:name,name,photoURL:"",about:"",msdId,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastSeen:serverTimestamp()});
+   toast("Account created!");
+  }else await signInWithEmailAndPassword(auth,email,password);
+ }catch(err){showAuthError(errorMessage(err))}finally{$("authSubmit").disabled=false}
+});
+
+onAuthStateChanged(auth,async user=>{
+ currentUser=user;
+ if(!user){cleanupListeners();$("authScreen").classList.remove("hidden");$("appScreen").classList.add("hidden");return}
+ try{
+  const userRef=doc(db,"users",user.uid);let snap=await getDoc(userRef);
+  if(!snap.exists()){
+   const name=user.displayName||user.email?.split("@")[0]||"MSD User";
+   await setDoc(userRef,{uid:user.uid,email:user.email||"",displayName:name,name,photoURL:user.photoURL||"",about:"",msdId:getMsdId(user.uid),createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastSeen:serverTimestamp()});
+   snap=await getDoc(userRef);
+  }
+  myProfile={...snap.data(),uid:user.uid};if(!myProfile.msdId){myProfile.msdId=getMsdId(user.uid);await updateDoc(userRef,{msdId:myProfile.msdId})}
+  $("authScreen").classList.add("hidden");$("appScreen").classList.remove("hidden");renderMyProfile();applySettings();startListeners();
+  await updateDoc(userRef,{lastSeen:serverTimestamp()}).catch(()=>{});
+ }catch(err){toast("Could not load your profile: "+errorMessage(err))}
+});
+
+function cleanupListeners(){[stopFriends,stopRequests,stopMessages,stopTyping,...unsubscribers].forEach(fn=>{try{fn&&fn()}catch{}});stopFriends=stopRequests=stopMessages=stopTyping=null;unsubscribers.length=0;friends.clear();requestDocs=[];activePeer=null;activeChatId=null}
+function startListeners(){
+ cleanupListeners();
+ stopFriends=onSnapshot(collection(db,"contacts",currentUser.uid,"friends"),async snap=>{
+  const next=new Map();
+  for(const d of snap.docs){const data=d.data();const uid=data.uid||d.id;if(uid===currentUser.uid)continue;next.set(uid,{uid,displayName:data.displayName||data.name||data.email||"MSD User",name:data.displayName||data.name||"MSD User",email:data.email||"",photoURL:data.photoURL||"",msdId:data.msdId||"",about:data.about||""})}
+  friends=next;renderChats();if(activePeer&&!friends.has(activePeer.uid)){closeConversation();toast("This person is no longer in your contacts.")}
+ },err=>toast("Contacts could not load: "+errorMessage(err)));
+ const rq=q=>onSnapshot(q,snap=>{requestDocs=snap.docs.map(d=>({id:d.id,...d.data()}));renderRequests()},err=>toast("Requests could not load: "+errorMessage(err)));
+ const q1=query(collection(db,"friendRequests"),where("toUid","==",currentUser.uid),where("status","==","pending"));
+ const q2=query(collection(db,"friendRequests"),where("fromUid","==",currentUser.uid),where("status","==","pending"));
+ const s1=onSnapshot(q1,snap=>{const a=snap.docs.map(d=>({id:d.id,...d.data()}));requestDocs=requestDocs.filter(x=>x.fromUid===currentUser.uid).concat(a);renderRequests()},err=>toast("Received requests unavailable: "+errorMessage(err)));
+ const s2=onSnapshot(q2,snap=>{const a=snap.docs.map(d=>({id:d.id,...d.data()}));requestDocs=requestDocs.filter(x=>x.toUid===currentUser.uid).concat(a);renderRequests()},err=>toast("Sent requests unavailable: "+errorMessage(err)));
+ stopRequests=()=>{s1();s2()};
+}
+function renderMyProfile(){avatar($("myAvatar"),myProfile);$("myName").textContent=myProfile.displayName||myProfile.name||"MSD User";$("myId").textContent=myProfile.msdId||getMsdId(currentUser.uid)}
+function renderChats(){
+ const list=$("chatList");list.replaceChildren();const search=$("chatSearch").value.trim().toLowerCase();
+ const arr=[...friends.values()].filter(p=>`${p.displayName} ${p.email} ${p.msdId}`.toLowerCase().includes(search)).sort((a,b)=>a.displayName.localeCompare(b.displayName));
+ if(!arr.length){list.append(emptyBox(search?"No matching accepted contacts.":"No contacts yet. Use Find People to add someone."));return}
+ for(const person of arr){const row=makeEl("div","person-row"+(activePeer?.uid===person.uid?" selected":""));const av=makeEl("div","avatar");avatar(av,person);const details=makeEl("div","details");details.append(makeEl("strong","",person.displayName),makeEl("span","preview",person.msdId||person.email||"Accepted contact"));row.append(av,details);row.onclick=()=>openConversation(person);list.append(row)}
+}
+$("chatSearch").addEventListener("input",renderChats);$("refreshButton").onclick=()=>{renderChats();toast("Contact list refreshed.")};
+function renderRequests(){
+ const received=$("receivedList"),sent=$("sentList");received.replaceChildren();sent.replaceChildren();
+ const incoming=requestDocs.filter(r=>r.toUid===currentUser?.uid&&r.status==="pending").filter((r,i,a)=>a.findIndex(x=>x.id===r.id)===i);
+ const outgoing=requestDocs.filter(r=>r.fromUid===currentUser?.uid&&r.status==="pending").filter((r,i,a)=>a.findIndex(x=>x.id===r.id)===i);
+ $("requestBadge").textContent=String(incoming.length);$("requestBadge").classList.toggle("hidden",!incoming.length);
+ if(!incoming.length)received.append(emptyBox("No received requests."));
+ for(const r of incoming){const p={displayName:r.fromName||r.fromEmail||"MSD User",photoURL:r.fromPhotoURL||"",email:r.fromEmail||"",msdId:r.fromMsdId||""};const row=makeEl("div","person-row"),av=makeEl("div","avatar");avatar(av,p);const d=makeEl("div","details");d.append(makeEl("strong","",p.displayName),makeEl("span","preview",p.msdId||p.email));const actions=makeEl("div","row-actions"),accept=makeEl("button","primary","Accept"),reject=makeEl("button","secondary","Decline");accept.onclick=()=>acceptRequest(r);reject.onclick=()=>declineRequest(r);actions.append(accept,reject);row.append(av,d,actions);received.append(row)}
+ if(!outgoing.length)sent.append(emptyBox("No sent requests."));
+ for(const r of outgoing){const row=makeEl("div","person-row"),d=makeEl("div","details");d.append(makeEl("strong","",r.toName||r.toEmail||"MSD User"),makeEl("span","preview",r.toMsdId||r.toEmail||"Pending"));const cancel=makeEl("button","secondary","Cancel");cancel.onclick=()=>cancelRequest(r);row.append(d,cancel);sent.append(row)}
+}
+function requestPayload(other){return {fromUid:currentUser.uid,fromEmail:currentUser.email||"",fromName:myProfile.displayName||myProfile.name||"",fromPhotoURL:myProfile.photoURL||"",fromMsdId:myProfile.msdId||getMsdId(currentUser.uid),toUid:other.uid,toEmail:other.email||"",toName:other.displayName||other.name||"",toPhotoURL:other.photoURL||"",toMsdId:other.msdId||"",status:"pending",createdAt:serverTimestamp()}}
+async function sendRequest(person){try{if(person.uid===currentUser.uid)throw new Error("You cannot add yourself.");if(friends.has(person.uid)){toast("This person is already in your contacts.");return}
+ const existing=await getDocs(query(collection(db,"friendRequests"),where("fromUid","==",currentUser.uid),where("toUid","==",person.uid),where("status","==","pending")));
+ if(!existing.empty){toast("Request already sent.");return}
+ const reverse=await getDocs(query(collection(db,"friendRequests"),where("fromUid","==",person.uid),where("toUid","==",currentUser.uid),where("status","==","pending")));
+ if(!reverse.empty){toast("This person has already sent you a request. Open Requests to accept it.");return}
+ await addDoc(collection(db,"friendRequests"),requestPayload(person));toast("Friend request sent.");setTab("requests");
+ }catch(err){toast("Could not send request: "+errorMessage(err))}}
+async function acceptRequest(r){try{
+ const batch=writeBatch(db),me={uid:currentUser.uid,displayName:myProfile.displayName||myProfile.name||"",name:myProfile.displayName||myProfile.name||"",email:currentUser.email||"",photoURL:myProfile.photoURL||"",msdId:myProfile.msdId||getMsdId(currentUser.uid),about:myProfile.about||""};
+ const other={uid:r.fromUid,displayName:r.fromName||r.fromEmail||"MSD User",name:r.fromName||"",email:r.fromEmail||"",photoURL:r.fromPhotoURL||"",msdId:r.fromMsdId||"",about:""};
+ batch.set(doc(db,"contacts",currentUser.uid,"friends",r.fromUid),{...other,createdAt:serverTimestamp()});
+ batch.set(doc(db,"contacts",r.fromUid,"friends",currentUser.uid),{...me,createdAt:serverTimestamp()});
+ batch.update(doc(db,"friendRequests",r.id),{status:"accepted",updatedAt:serverTimestamp()});
+ await batch.commit();toast("Contact added! You can now chat.");renderChats();
+ }catch(err){toast("Could not accept request: "+errorMessage(err))}}
+async function declineRequest(r){try{await updateDoc(doc(db,"friendRequests",r.id),{status:"declined",updatedAt:serverTimestamp()});toast("Request declined.")}catch(err){toast(errorMessage(err))}}
+async function cancelRequest(r){try{await updateDoc(doc(db,"friendRequests",r.id),{status:"cancelled",updatedAt:serverTimestamp()});toast("Request cancelled.")}catch(err){toast(errorMessage(err))}}
+
+$("peopleForm").addEventListener("submit",async e=>{
+ e.preventDefault();const term=$("peopleQuery").value.trim();if(!term)return;const results=$("peopleResults");results.replaceChildren(makeEl("div","empty","Searching…"));
+ try{
+  let docs=[];
+  const normalized=term.toLowerCase();
+  if(normalized.startsWith("msd-")){
+   const snap=await getDocs(query(collection(db,"users"),where("msdId","==",term.toUpperCase()),limit(10)));docs=snap.docs;
+  }else{
+   const [byEmail,byId]=await Promise.all([
+    getDocs(query(collection(db,"users"),where("email","==",normalized),limit(20))),
+    getDocs(query(collection(db,"users"),where("msdId","==",term.toUpperCase()),limit(20)))
+   ]);
+   const map=new Map();[...byEmail.docs,...byId.docs].forEach(d=>map.set(d.id,d));docs=[...map.values()];
+   if(!docs.length){
+    const all=await getDocs(query(collection(db,"users"),limit(100)));
+    docs=all.docs.filter(d=>String(d.data().displayName||d.data().name||"").toLowerCase().includes(normalized)||String(d.data().email||"").toLowerCase().includes(normalized)||String(d.data().msdId||"").toLowerCase().includes(normalized));
+   }
+  }
+  const people=docs.map(d=>({uid:d.id,...d.data()})).filter(p=>p.uid!==currentUser.uid);
+  results.replaceChildren();
+  if(!people.length){results.append(emptyBox("No matching person found."));return}
+  for(const p of people){const row=makeEl("div","person-row"),av=makeEl("div","avatar");avatar(av,p);const details=makeEl("div","details");details.append(makeEl("strong","",p.displayName||p.name||"MSD User"),makeEl("span","preview",p.msdId||p.email||"MSD Chat user"));const actions=makeEl("div","row-actions");
+   if(friends.has(p.uid)){actions.append(makeEl("span","success small","Already added"))}
+   else if(requestDocs.some(r=>r.fromUid===currentUser.uid&&r.toUid===p.uid&&r.status==="pending")){actions.append(makeEl("span","muted small","Request sent"))}
+   else if(requestDocs.some(r=>r.fromUid===p.uid&&r.toUid===currentUser.uid&&r.status==="pending")){actions.append(makeEl("span","muted small","Request received"))}
+   else{const btn=makeEl("button","primary","Add");btn.onclick=()=>sendRequest(p);actions.append(btn)}
+   row.append(av,details,actions);results.append(row)
+  }
+ }catch(err){results.replaceChildren(emptyBox("Search failed: "+errorMessage(err)))}
+});
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));
+$("welcomePeople").onclick=()=>setTab("people");
+
+function closeConversation(){if(stopMessages){stopMessages();stopMessages=null}if(stopTyping){stopTyping();stopTyping=null}activePeer=null;activeChatId=null;messageCache=[];pendingReply=null;editingMessage=null;$("conversation").classList.add("hidden");$("welcome").classList.remove("hidden");$("appScreen").classList.remove("chat-open");renderChats()}
+async function openConversation(person){
+ if(!friends.has(person.uid)){toast("Add this person and wait for acceptance before chatting.");return}
+ if(stopMessages){stopMessages();stopMessages=null}if(stopTyping){stopTyping();stopTyping=null}
+ activePeer=person;activeChatId=chatIdFor(currentUser.uid,person.uid);pendingReply=null;editingMessage=null;
+ $("replyPreview").classList.add("hidden");$("editBar").classList.add("hidden");$("welcome").classList.add("hidden");$("conversation").classList.remove("hidden");$("appScreen").classList.add("chat-open");
+ avatar($("peerAvatar"),person);$("peerName").textContent=person.displayName||person.name||"MSD User";$("peerStatus").textContent=person.msdId||"Private conversation";$("messages").replaceChildren(emptyBox("Loading messages…"));renderChats();
+ const msgQuery=query(collection(db,"chats",activeChatId,"messages"),orderBy("createdAt","asc"),limit(300));
+ stopMessages=onSnapshot(msgQuery,snap=>{messageCache=snap.docs.map(d=>({id:d.id,...d.data()}));renderMessages()},err=>{$("messages").replaceChildren(emptyBox("Messages could not load: "+errorMessage(err)))});
+ const typingRef=collection(db,"chats",activeChatId,"typing");
+ stopTyping=onSnapshot(typingRef,snap=>{const active=snap.docs.map(d=>d.data()).filter(t=>t.uid!==currentUser.uid&&t.typing&&Date.now()-(t.updatedAt?.toDate?.().getTime()||0)<12000);$("typing").textContent=active.length?(activePeer.displayName+" is typing…"):""});
+}
+$("backButton").onclick=closeConversation;
+function renderMessages(){
+ const list=$("messages"),term=$("messageSearch").value.trim().toLowerCase();list.replaceChildren();let previousDay="";
+ const items=messageCache.filter(m=>!term||String(m.text||"").toLowerCase().includes(term));
+ if(!items.length){list.append(emptyBox(term?"No matching messages.":"Say hello and start the conversation."));return}
+ for(const m of items){
+  const day=formatDay(m.createdAt);if(day!==previousDay){list.append(makeEl("div","day-divider",day));previousDay=day}
+  const mine=m.senderId===currentUser.uid,row=makeEl("div","bubble-row"+(mine?" mine":""));
+  const bubble=makeEl("div","bubble");if(m.replyText){const q=makeEl("div","reply-quote");q.append(makeEl("strong","",m.replySender||"Reply"),makeEl("div","",m.replyText));bubble.append(q)}
+  bubble.append(document.createTextNode(safeText(m.text)));row.append(bubble);
+  if(m.reactions&&Object.keys(m.reactions).length){const reactionWrap=makeEl("div","reactions");for(const [emoji,users] of Object.entries(m.reactions)){const count=Array.isArray(users)?users.length:Object.keys(users||{}).length;const btn=makeEl("button","reaction",emoji+" "+count);btn.onclick=()=>toggleReaction(m,emoji);reactionWrap.append(btn)}row.append(reactionWrap)}
+  const meta=makeEl("div","bubble-meta",formatTime(m.createdAt)+(m.edited?" · edited":""));row.append(meta);
+  const actions=makeEl("div","message-actions");const react=makeEl("button","","😀");react.title="React";react.onclick=()=>showReactionChoices(m);actions.append(react);
+  const reply=makeEl("button","","Reply");reply.onclick=()=>startReply(m);actions.append(reply);
+  const copy=makeEl("button","","Copy");copy.onclick=async()=>{try{await navigator.clipboard.writeText(m.text||"");toast("Message copied.")}catch{toast("Copy isn't available in this browser.")}};actions.append(copy);
+  if(mine){const edit=makeEl("button","","Edit");edit.onclick=()=>startEdit(m);const del=makeEl("button","danger","Delete");del.onclick=()=>deleteMessage(m);actions.append(edit,del)}
+  row.append(actions);list.append(row)
+ }
+ list.scrollTop=list.scrollHeight;
+}
+function showReactionChoices(m){const existing=$("emojiPanel");existing.classList.remove("hidden");existing.replaceChildren();EMOJIS.slice(0,20).forEach(emoji=>{const b=makeEl("button","",emoji);b.onclick=()=>{toggleReaction(m,emoji);existing.classList.add("hidden")};existing.append(b)})}
+async function toggleReaction(m,emoji){if(!activeChatId)return;try{const ref=doc(db,"chats",activeChatId,"messages",m.id),users={...(m.reactions||{})},list=Array.isArray(users[emoji])?[...users[emoji]]:Object.keys(users[emoji]||{});const index=list.indexOf(currentUser.uid);if(index>=0)list.splice(index,1);else list.push(currentUser.uid);if(list.length)users[emoji]=list;else delete users[emoji];await updateDoc(ref,{reactions:users})}catch(err){toast("Reaction failed: "+errorMessage(err))}}
+function startReply(m){pendingReply={id:m.id,text:m.text||"",sender:m.senderName||"Message"};$("replyName").textContent="Replying to "+pendingReply.sender;$("replyText").textContent=pendingReply.text;$("replyPreview").classList.remove("hidden");$("messageInput").focus()}
+$("cancelReply").onclick=()=>{pendingReply=null;$("replyPreview").classList.add("hidden")}
+function startEdit(m){editingMessage=m;$("messageInput").value=m.text||"";$("editBar").classList.remove("hidden");$("messageInput").focus()}
+$("cancelEdit").onclick=()=>{editingMessage=null;$("messageInput").value="";$("editBar").classList.add("hidden")}
+$("messageForm").addEventListener("submit",async e=>{
+ e.preventDefault();const text=$("messageInput").value.trim();if(!text||!activeChatId||!activePeer)return;if(!friends.has(activePeer.uid)){toast("Only accepted contacts can be messaged.");return}
+ const input=$("messageInput");input.disabled=true;
+ try{
+  if(editingMessage){await updateDoc(doc(db,"chats",activeChatId,"messages",editingMessage.id),{text,edited:true,editedAt:serverTimestamp()});editingMessage=null;$("editBar").classList.add("hidden")}
+  else{const data={senderId:currentUser.uid,senderEmail:currentUser.email||"",senderName:myProfile.displayName||myProfile.name||"MSD User",text,createdAt:serverTimestamp(),reactions:{}};if(pendingReply){data.replyTo=pendingReply.id;data.replyText=pendingReply.text;data.replySender=pendingReply.sender}await addDoc(collection(db,"chats",activeChatId,"messages"),data);pendingReply=null;$("replyPreview").classList.add("hidden")}
+  input.value="";input.style.height="auto";$("emojiPanel").classList.add("hidden");await setTyping(false);
+ }catch(err){toast("Message could not send: "+errorMessage(err))}finally{input.disabled=false;input.focus()}
+});
+$("messageInput").addEventListener("input",()=>{const t=$("messageInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,130)+"px";setTyping(true)});
+async function setTyping(typing){if(!activeChatId||!currentUser)return;clearTimeout(typingTimer);const ref=doc(db,"chats",activeChatId,"typing",currentUser.uid);try{await setDoc(ref,{uid:currentUser.uid,typing,updatedAt:serverTimestamp()},{merge:true})}catch{}if(typing)typingTimer=setTimeout(()=>setTyping(false),4000)}
+$("emojiButton").onclick=()=>{$("emojiPanel").classList.toggle("hidden");if(!$("emojiPanel").classList.contains("hidden")){$("emojiPanel").replaceChildren();EMOJIS.forEach(em=>{const b=makeEl("button","",em);b.onclick=()=>{$("messageInput").value+=em;$("messageInput").focus()};$("emojiPanel").append(b)})}};
+$("messageSearchButton").onclick=()=>{$("messageSearchWrap").classList.toggle("hidden");if(!$("messageSearchWrap").classList.contains("hidden"))$("messageSearch").focus()};
+$("messageSearch").addEventListener("input",renderMessages);
+$("chatMenuButton").onclick=()=>{if(!activePeer)return;openConfirm("Conversation options","Remove this contact from your chat list? This removes the contact relationship; it does not erase old messages.",async()=>{await removeContact(activePeer)})};
+async function removeContact(peer){try{const batch=writeBatch(db);batch.delete(doc(db,"contacts",currentUser.uid,"friends",peer.uid));batch.delete(doc(db,"contacts",peer.uid,"friends",currentUser.uid));await batch.commit();closeConversation();toast("Contact removed.")}catch(err){toast("Could not remove contact: "+errorMessage(err))}}
+async function deleteMessage(m){openConfirm("Delete message","Delete this message for everyone in this conversation?",async()=>{try{await deleteDoc(doc(db,"chats",activeChatId,"messages",m.id));toast("Message deleted.")}catch(err){toast(errorMessage(err))}})}
+function openConfirm(title,text,action){$("confirmTitle").textContent=title;$("confirmText").textContent=text;confirmAction=action;showModal("confirmModal")}
+$("confirmYes").onclick=async()=>{const action=confirmAction;hideModal("confirmModal");confirmAction=null;if(action)await action()};
+$("profileButton").onclick=()=>{if(!myProfile)return;$("profileName").value=myProfile.displayName||myProfile.name||"";$("profilePhoto").value=myProfile.photoURL||"";$("profileAbout").value=myProfile.about||"";$("profileId").textContent=myProfile.msdId||getMsdId(currentUser.uid);showModal("profileModal")};
+$("settingsButton").onclick=()=>showModal("settingsModal");
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>hideModal(b.dataset.close));
+document.querySelectorAll(".modal-backdrop").forEach(back=>back.addEventListener("click",e=>{if(e.target===back)back.classList.add("hidden")}));
+$("profileForm").addEventListener("submit",async e=>{e.preventDefault();const displayName=$("profileName").value.trim(),photoURL=$("profilePhoto").value.trim(),about=$("profileAbout").value.trim();if(displayName.length<2){toast("Name must be at least 2 characters.");return}try{await updateDoc(doc(db,"users",currentUser.uid),{displayName,name:displayName,photoURL,about,updatedAt:serverTimestamp()});await updateProfile(currentUser,{displayName,photoURL:photoURL||null});myProfile={...myProfile,displayName,name:displayName,photoURL,about};renderMyProfile();hideModal("profileModal");toast("Profile saved. Note: existing contact cards may show the previous profile until refreshed.")}catch(err){toast("Profile save failed: "+errorMessage(err))}});
+$("copyIdButton").onclick=async()=>{try{await navigator.clipboard.writeText($("profileId").textContent);toast("MSD ID copied.")}catch{toast("Please select and copy your MSD ID manually.")}};
+function applySettings(){const s=JSON.parse(localStorage.getItem("msdSettings")||"{}");document.body.classList.toggle("light",s.theme==="light");$("messages").style.fontSize=({small:"13px",medium:"15px",large:"18px"})[s.fontSize||"medium"];const chat=$("messages");chat.style.background=s.wallpaper==="gradient"?"linear-gradient(135deg,var(--bg),var(--panel2))":s.wallpaper==="plain"?"var(--bg)":"";$("theme").value=s.theme||"dark";$("fontSize").value=s.fontSize||"medium";$("wallpaper").value=s.wallpaper||"default"}
+$("settingsForm").addEventListener("submit",e=>{e.preventDefault();localStorage.setItem("msdSettings",JSON.stringify({theme:$("theme").value,fontSize:$("fontSize").value,wallpaper:$("wallpaper").value}));applySettings();hideModal("settingsModal");toast("Settings saved on this device.")});
+$("logoutButton").onclick=async()=>{try{if(currentUser)await updateDoc(doc(db,"users",currentUser.uid),{lastSeen:serverTimestamp()}).catch(()=>{});await signOut(auth)}catch(err){toast(errorMessage(err))}};
+window.addEventListener("beforeunload",()=>{if(stopFriends)stopFriends();if(stopRequests)stopRequests();if(stopMessages)stopMessages();if(stopTyping)stopTyping()});
 </script>
 </body>
 </html>
