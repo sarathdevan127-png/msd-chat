@@ -10,11 +10,26 @@
 :root{color-scheme:dark;--bg:#0b1020;--panel:#141b2d;--panel2:#1c263c;--line:#2c3852;--text:#f4f6ff;--muted:#a7b2cc;--accent:#8175ff;--accent2:#5f55dc;--bubble:#202b43;--mine:#5148a8;--danger:#ff737d;--font:16px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:var(--font)/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:10px 13px;background:var(--accent);color:white;font-weight:650}button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:var(--panel2);border:1px solid var(--line)}.danger{background:#692e3a}.muted{color:var(--muted)}.small{font-size:.82rem}.hidden{display:none!important}.app{height:100dvh;max-width:1500px;margin:auto;display:grid;grid-template-columns:350px 1fr;background:var(--bg)}.sidebar{min-height:0;border-right:1px solid var(--line);display:flex;flex-direction:column;background:var(--panel)}.brand{padding:17px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand h1{margin:0;font-size:1.25rem;letter-spacing:.3px}.brand small{color:var(--muted)}.profile{padding:12px 14px;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line)}.avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8275ff,#3bbfbd);font-weight:800;overflow:hidden;color:white}.avatar img{width:100%;height:100%;object-fit:cover}.profile-info{min-width:0;flex:1}.profile-info strong,.profile-info span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-info span{font-size:.8rem;color:var(--muted)}.tabs{display:flex;gap:6px;padding:10px}.tabs button{flex:1;padding:9px 4px;font-size:.84rem}.tabs button.active{background:var(--accent2)}.section{padding:0 12px 10px;min-height:0}.section-title{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:5px 3px 8px}.searchrow{display:flex;gap:7px;margin-bottom:9px}.field{min-width:0;width:100%;border:1px solid var(--line);background:#0d1425;color:var(--text);border-radius:11px;padding:11px 12px;outline:none}.field:focus{border-color:var(--accent)}.scrolllist{overflow:auto;min-height:0;flex:1;padding:0 8px 12px}.person{display:flex;align-items:center;gap:10px;padding:10px;border-radius:13px;cursor:pointer;margin-bottom:3px}.person:hover,.person.selected{background:var(--panel2)}.person .pinfo{min-width:0;flex:1}.person strong,.person .sub{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.person .sub{font-size:.79rem;color:var(--muted)}.badge{font-size:.72rem;padding:3px 7px;border-radius:99px;background:var(--accent2)}.main{display:flex;flex-direction:column;min-width:0;min-height:0}.chathead{padding:12px 17px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);background:var(--panel)}.chathead .headinfo{min-width:0;flex:1}.chathead strong,.chathead small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chathead small{color:var(--muted)}.chat-tools{display:flex;gap:6px}.chat-tools button{padding:8px 10px}.messages{flex:1;min-height:0;overflow:auto;padding:18px clamp(10px,4vw,45px);display:flex;flex-direction:column;gap:10px;background-color:var(--bg);background-image:radial-gradient(#29344b 0.65px,transparent .65px);background-size:17px 17px}.dayline{text-align:center;color:var(--muted);font-size:.75rem;margin:5px}.bubble{max-width:min(78%,680px);align-self:flex-start;background:var(--bubble);border:1px solid #303d57;border-radius:15px 15px 15px 4px;padding:9px 11px;overflow-wrap:anywhere;position:relative}.bubble.mine{align-self:flex-end;background:var(--mine);border-color:#7167db;border-radius:15px 15px 4px 15px}.sender{font-size:.75rem;font-weight:800;color:#b8c2ff;margin-bottom:3px}.msgtext{white-space:pre-wrap}.meta{display:flex;gap:7px;align-items:center;justify-content:flex-end;color:#c9cbe5;font-size:.68rem;margin-top:5px}.msgactions{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.msgactions button{font-size:.72rem;padding:4px 7px;background:#172038;border:1px solid #465170}.reaction{font-size:.78rem;background:#10172a;border:1px solid #526081;border-radius:20px;padding:2px 6px;margin-top:5px;display:inline-block}.replyquote{border-left:3px solid #b7aaff;padding:5px 8px;margin-bottom:6px;background:#11192a;border-radius:5px;font-size:.78rem;color:#d9ddf5}.composer{padding:10px 13px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--panel)}.replybar{display:flex;align-items:center;gap:10px;padding:7px 9px;background:var(--panel2);border-radius:8px;margin-bottom:7px}.replybar span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.compose-row{display:flex;align-items:flex-end;gap:8px}.compose-row textarea{resize:none;min-height:45px;max-height:140px;flex:1}.iconbtn{padding:10px 12px}.empty{margin:auto;text-align:center;color:var(--muted);padding:30px}.auth-wrap{min-height:100dvh;display:grid;place-items:center;padding:18px}.auth-card{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);padding:24px;border-radius:20px;box-shadow:0 20px 60px #0005}.auth-card h1{margin:0 0 5px}.auth-card .field{margin:7px 0}.auth-card button{width:100%;margin-top:8px}.auth-card .secondary{margin-top:8px}.modal-back{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:5}.modal{width:min(520px,100%);max-height:90dvh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}.modal h2{margin:0 0 12px}.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.result{padding:10px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}.result .pinfo{flex:1;min-width:0}.result strong,.result small{display:block;overflow-wrap:anywhere}.result small{color:var(--muted)}.notice{padding:10px 12px;background:#252147;border:1px solid #4e468d;border-radius:10px;margin:10px 12px;font-size:.84rem}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#f5f5ff;color:#16172a;padding:10px 15px;border-radius:10px;z-index:20;box-shadow:0 5px 20px #0006;max-width:90vw}.community-label{color:#d6d1ff}.topmobile{display:none}
 @media(max-width:760px){.app{display:block;height:100dvh;position:relative}.sidebar{height:100%;width:100%;border:0}.main{display:none;position:absolute;inset:0;z-index:2;height:100%;background:var(--bg)}.app.chat-open .sidebar{display:none}.app.chat-open .main{display:flex}.topmobile{display:inline-flex}.chathead{padding:10px}.chat-tools button{padding:8px}.messages{padding:12px 9px}.bubble{max-width:88%}.brand{padding-top:calc(13px + env(safe-area-inset-top))}.scrolllist{padding-bottom:calc(15px + env(safe-area-inset-bottom))}}
+
+/* Front-page install card */
+.install-card{margin:0 0 18px;padding:15px;border:1px solid #5148a8;border-radius:16px;background:linear-gradient(135deg,#242044,#15263a);text-align:center}
+.install-card .install-icon{font-size:2rem;line-height:1.2;margin-bottom:6px}
+.install-card h2{font-size:1.12rem;margin:0 0 5px}
+.install-card p{font-size:.86rem;color:#cbd3ee;margin:0 0 10px}
+#installAppBtn{width:100%;margin:0;padding:13px 16px;background:linear-gradient(90deg,#8175ff,#4f8cff);font-size:1rem;box-shadow:0 6px 18px #0004}
+#installHint{display:block;margin-top:8px;font-size:.76rem;color:#cbd3ee}
 </style>
 </head>
 <body>
 <div id="authView" class="auth-wrap">
   <div class="auth-card">
+    <div id="installCard" class="install-card">
+      <div class="install-icon">📲</div>
+      <h2>Install MSD Chat</h2>
+      <p>Add MSD Chat to your home screen and open it like a normal app.</p>
+      <button id="installAppBtn" type="button">⬇ INSTALL MSD CHAT</button>
+      <span id="installHint">Tap install to continue</span>
+    </div>
     <h1>💬 MSD Chat</h1><p class="muted">Your people. Your conversations.</p>
     <div id="authError" class="notice hidden"></div>
     <input id="authName" class="field hidden" placeholder="Your display name (for new account)" maxlength="40">
@@ -52,13 +67,11 @@
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,sendPasswordResetEmail,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getFirestore,collection,doc,setDoc,getDoc,addDoc,updateDoc,deleteDoc,query,where,orderBy,onSnapshot,serverTimestamp,writeBatch,limit} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {getMessaging,isSupported,getToken,onMessage} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
 const firebaseConfig={apiKey:"AIzaSyBojogl1g0i2_zXK-B8A29cnIRM5pn3DjY",authDomain:"msd-chat-18e3a.firebaseapp.com",projectId:"msd-chat-18e3a",storageBucket:"msd-chat-18e3a.firebasestorage.app",messagingSenderId:"159171434081",appId:"1:159171434081:web:9997129ce58a5af47abc20"};
 const appFB=initializeApp(firebaseConfig),auth=getAuth(appFB),db=getFirestore(appFB);
 const $=id=>document.getElementById(id);
-let me=null,myProfile={},contacts=new Map(),usersCache=[],incoming=[],outgoing=[],currentChat=null,currentPerson=null,isCommunity=false,unsubscribeMessages=null,unsubscribeContacts=null,unsubscribeIncoming=null,unsubscribeOutgoing=null,unsubscribeTyping=null,typingTimer=null,replyTo=null,editingId=null,messageCache=[],activeTab="chats",lastRenderedChat="",chatSearchTerm="",messagingInstance=null,unsubscribeForegroundMessages=null;
-const FCM_VAPID_KEY="BE5iBVclzJBDQxewyOlJ_is9u52cIFNHr5KAHiyt0sg4YjSqkPS_6QNvxjaiyPYhIawq-h_YW0OWUN6QY0OMx9E";
+let me=null,myProfile={},contacts=new Map(),usersCache=[],incoming=[],outgoing=[],currentChat=null,currentPerson=null,isCommunity=false,unsubscribeMessages=null,unsubscribeContacts=null,unsubscribeIncoming=null,unsubscribeOutgoing=null,unsubscribeTyping=null,typingTimer=null,replyTo=null,editingId=null,messageCache=[],activeTab="chats",lastRenderedChat="",chatSearchTerm="";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const niceName=p=>p?.displayName||p?.name||p?.email?.split("@")[0]||"MSD user";
 const idFor=uid=>"MSD-"+String(uid||"").toUpperCase();
@@ -74,7 +87,7 @@ $("signUpBtn").onclick=async()=>{try{const name=$("authName").value.trim();if(!n
 $("resetBtn").onclick=async()=>{try{if(!$("authEmail").value.trim())return showAuthError("Enter your email address first.");await sendPasswordResetEmail(auth,$("authEmail").value.trim());showAuthError("Password reset email sent. Check your inbox.")}catch(e){showAuthError(errMsg(e))}};
 $("logoutBtn").onclick=()=>signOut(auth);$("backBtn").onclick=()=>{$("app").classList.remove("chat-open");closeCurrentChat()};
 onAuthStateChanged(auth,async user=>{me=user;if(!user){cleanup();$("authView").classList.remove("hidden");$("app").classList.add("hidden");return} $("authView").classList.add("hidden");$("app").classList.remove("hidden");try{const ref=doc(db,"users",user.uid),snap=await getDoc(ref);myProfile=snap.exists()?snap.data():{};myProfile={...myProfile,uid:user.uid,email:user.email,displayName:myProfile.displayName||user.displayName||user.email.split("@")[0],msdId:myProfile.msdId||idFor(user.uid)};await setDoc(ref,{uid:user.uid,email:user.email,displayName:myProfile.displayName,name:myProfile.displayName,msdId:myProfile.msdId,updatedAt:serverTimestamp(),lastSeen:serverTimestamp()},{merge:true});renderMyProfile();startContacts();startRequests();setInterval(()=>{if(auth.currentUser)setDoc(doc(db,"users",user.uid),{lastSeen:serverTimestamp()},{merge:true}).catch(()=>{})},60000)}catch(e){toast(errMsg(e));renderMyProfile();startContacts();startRequests()}});
-function cleanup(){[unsubscribeMessages,unsubscribeContacts,unsubscribeIncoming,unsubscribeOutgoing,unsubscribeTyping,unsubscribeForegroundMessages].forEach(fn=>{if(fn)fn()});unsubscribeMessages=unsubscribeContacts=unsubscribeIncoming=unsubscribeOutgoing=unsubscribeTyping=unsubscribeForegroundMessages=null;messagingInstance=null;currentChat=null;currentPerson=null;contacts.clear()}
+function cleanup(){[unsubscribeMessages,unsubscribeContacts,unsubscribeIncoming,unsubscribeOutgoing,unsubscribeTyping].forEach(fn=>{if(fn)fn()});unsubscribeMessages=unsubscribeContacts=unsubscribeIncoming=unsubscribeOutgoing=unsubscribeTyping=null;currentChat=null;currentPerson=null;contacts.clear()}
 function renderMyProfile(){$("myName").textContent=niceName(myProfile);$("myId").textContent=myProfile.msdId||idFor(me.uid);$("myAvatar").innerHTML=myProfile.photoURL?`<img src="${esc(myProfile.photoURL)}" alt="">`:esc(niceName(myProfile).slice(0,1).toUpperCase())}
 function startContacts(){if(unsubscribeContacts)unsubscribeContacts();unsubscribeContacts=onSnapshot(collection(db,"contacts",me.uid,"friends"),async snap=>{contacts.clear();for(const d of snap.docs){let p=d.data();contacts.set(d.id,{...p,uid:p.uid||d.id});}renderContacts();},e=>{console.error(e);$("listNotice").textContent="Could not load contacts. Check Firestore rules."; $("listNotice").classList.remove("hidden")})}
 function startRequests(){if(unsubscribeIncoming)unsubscribeIncoming();if(unsubscribeOutgoing)unsubscribeOutgoing();unsubscribeIncoming=onSnapshot(query(collection(db,"friendRequests"),where("toUid","==",me.uid),where("status","==","pending")),s=>{incoming=s.docs.map(d=>({id:d.id,...d.data()}));$("requestCount").textContent=incoming.length?`(${incoming.length})`:"";renderRequests()},e=>console.warn(e));unsubscribeOutgoing=onSnapshot(query(collection(db,"friendRequests"),where("fromUid","==",me.uid),where("status","==","pending")),s=>{outgoing=s.docs.map(d=>({id:d.id,...d.data()}));renderRequests()},e=>console.warn(e))}
@@ -114,35 +127,45 @@ $("emojiBtn").onclick=()=>{const emojis=["😀","😂","🥹","😍","😘","�
 $("searchChatBtn").onclick=()=>{$("messageSearchBar").classList.toggle("hidden");if(!$("messageSearchBar").classList.contains("hidden"))$("messageSearch").focus();else{chatSearchTerm="";$("messageSearch").value="";renderMessages()}};$("messageSearch").addEventListener("input",()=>{chatSearchTerm=$("messageSearch").value;renderMessages()});$("clearMessageSearch").onclick=()=>{$("messageSearch").value="";chatSearchTerm="";renderMessages()};
 $("chatOptionsBtn").onclick=()=>modal("Chat options",`<p>Customize this app on your device.</p><label>Theme<select id="themeChoice" class="field"><option value="dark">Dark</option><option value="midnight">Midnight purple</option><option value="light">Light</option></select></label><label>Font size<select id="fontChoice" class="field"><option value="14px">Small</option><option value="16px">Normal</option><option value="18px">Large</option><option value="20px">Extra large</option></select></label><label>Chat wallpaper color<input id="wallChoice" class="field" type="color" value="#0b1020"></label>`,[{label:"Save settings",run:()=>{applyTheme($("themeChoice").value);document.documentElement.style.setProperty("--font",$("fontChoice").value);localStorage.setItem("msd-font",$("fontChoice").value);document.documentElement.style.setProperty("--bg",$("wallChoice").value);localStorage.setItem("msd-wall",$("wallChoice").value);$("modalRoot").innerHTML=""}}]);
 function applyTheme(t){if(t==="light"){document.documentElement.style.setProperty("--bg","#eef1f8");document.documentElement.style.setProperty("--panel","#ffffff");document.documentElement.style.setProperty("--panel2","#e6eaf4");document.documentElement.style.setProperty("--line","#d2d8e6");document.documentElement.style.setProperty("--text","#192137");document.documentElement.style.setProperty("--muted","#59657e");document.documentElement.style.setProperty("--bubble","#e3e8f4");document.documentElement.style.setProperty("--mine","#d5d0ff")}else{document.documentElement.style.setProperty("--bg",t==="midnight"?"#100b25":"#0b1020");document.documentElement.style.setProperty("--panel",t==="midnight"?"#1b1433":"#141b2d");document.documentElement.style.setProperty("--panel2",t==="midnight"?"#2b2048":"#1c263c");document.documentElement.style.setProperty("--line","#2c3852");document.documentElement.style.setProperty("--text","#f4f6ff");document.documentElement.style.setProperty("--muted","#a7b2cc");document.documentElement.style.setProperty("--bubble","#202b43");document.documentElement.style.setProperty("--mine","#5148a8")}localStorage.setItem("msd-theme",t)}
-async function enableNotifications(){
-  if(!me){toast("Please sign in first.");return}
-  if(!("Notification" in window)||!("serviceWorker" in navigator)){toast("This browser does not support web notifications.");return}
-  try{
-    const supported=await isSupported().catch(()=>false);
-    if(!supported){toast("Push notifications are not supported in this browser.");return}
-    const permission=await Notification.requestPermission();
-    if(permission!=="granted"){toast("Notifications were not allowed. Enable them in your browser settings.");return}
-    const swReg=await navigator.serviceWorker.register("./firebase-messaging-sw.js");
-    await navigator.serviceWorker.ready;
-    messagingInstance=getMessaging(appFB);
-    const token=await getToken(messagingInstance,{vapidKey:FCM_VAPID_KEY,serviceWorkerRegistration:swReg});
-    if(!token){toast("Could not register this device for notifications.");return}
-    await setDoc(doc(db,"users",me.uid),{fcmToken:token,notificationsEnabled:true,notificationsUpdatedAt:serverTimestamp()},{merge:true});
-    if(unsubscribeForegroundMessages)unsubscribeForegroundMessages();
-    unsubscribeForegroundMessages=onMessage(messagingInstance,payload=>{
-      const title=payload.notification?.title||"MSD Chat";
-      const body=payload.notification?.body||"You have a new message.";
-      toast(`${title}: ${body}`);
-      if(document.hidden&&Notification.permission==="granted"){
-        try{new Notification(title,{body,icon:"./favicon.ico"})}catch(e){console.warn("Foreground notification display failed",e)}
-      }
-    });
-    toast("Notifications enabled on this device!");
-  }catch(e){console.error("Notification setup failed",e);toast("Notification setup failed: "+(e?.message||"Check HTTPS, VAPID key and Firebase settings."))}
-}
-
-$("settingsBtn").onclick=()=>{modal("Profile & settings",`<label>Display name<input id="profileName" class="field" maxlength="40" value="${esc(niceName(myProfile))}"></label><label>Profile photo URL (optional)<input id="profilePhoto" class="field" value="${esc(myProfile.photoURL||"")}" placeholder="https://…"></label><p class="muted small">Your unique MSD ID</p><div class="notice">${esc(myProfile.msdId||idFor(me.uid))}</div><p class="muted small">Share your ID with someone so they can find you. A contact must accept a request before a private chat can be opened.</p>`,[{label:"Enable notifications",cls:"secondary",run:async()=>{await enableNotifications()}},{label:"Save profile",run:async()=>{try{const name=$("profileName").value.trim()||"MSD user",photoURL=$("profilePhoto").value.trim();myProfile={...myProfile,displayName:name,name,photoURL};await updateProfile(me,{displayName:name,photoURL:photoURL||null});await setDoc(doc(db,"users",me.uid),{displayName:name,name,photoURL,msdId:myProfile.msdId||idFor(me.uid),updatedAt:serverTimestamp()},{merge:true});renderMyProfile();$("modalRoot").innerHTML="";toast("Profile saved")}catch(e){toast(errMsg(e))}}}])};
+$("settingsBtn").onclick=()=>{modal("Profile & settings",`<label>Display name<input id="profileName" class="field" maxlength="40" value="${esc(niceName(myProfile))}"></label><label>Profile photo URL (optional)<input id="profilePhoto" class="field" value="${esc(myProfile.photoURL||"")}" placeholder="https://…"></label><p class="muted small">Your unique MSD ID</p><div class="notice">${esc(myProfile.msdId||idFor(me.uid))}</div><p class="muted small">Share your ID with someone so they can find you. A contact must accept a request before a private chat can be opened.</p>`,[{label:"Save profile",run:async()=>{try{const name=$("profileName").value.trim()||"MSD user",photoURL=$("profilePhoto").value.trim();myProfile={...myProfile,displayName:name,name,photoURL};await updateProfile(me,{displayName:name,photoURL:photoURL||null});await setDoc(doc(db,"users",me.uid),{displayName:name,name,photoURL,msdId:myProfile.msdId||idFor(me.uid),updatedAt:serverTimestamp()},{merge:true});renderMyProfile();$("modalRoot").innerHTML="";toast("Profile saved")}catch(e){toast(errMsg(e))}}}])};
 const savedTheme=localStorage.getItem("msd-theme");if(savedTheme)applyTheme(savedTheme);const savedFont=localStorage.getItem("msd-font");if(savedFont)document.documentElement.style.setProperty("--font",savedFont);const savedWall=localStorage.getItem("msd-wall");if(savedWall)document.documentElement.style.setProperty("--bg",savedWall);
+</script>
+
+<script>
+// Home-page install button for supported browsers (especially Android Chrome).
+(function(){
+  const card=document.getElementById('installCard');
+  const btn=document.getElementById('installAppBtn');
+  const hint=document.getElementById('installHint');
+  if(!card||!btn||!hint)return;
+  let installPrompt=null;
+  const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  function hideIfInstalled(){if(standalone())card.classList.add('hidden');}
+  hideIfInstalled();
+  window.addEventListener('beforeinstallprompt',function(event){
+    event.preventDefault();installPrompt=event;
+    hint.textContent='Ready to install — tap the button below.';
+    btn.textContent='⬇ INSTALL MSD CHAT';
+  });
+  window.addEventListener('appinstalled',function(){
+    installPrompt=null;card.classList.add('hidden');
+  });
+  btn.addEventListener('click',async function(){
+    if(standalone()){card.classList.add('hidden');return;}
+    if(installPrompt){
+      installPrompt.prompt();
+      const result=await installPrompt.userChoice;
+      if(result&&result.outcome==='accepted'){
+        hint.textContent='Great! Finish the installation prompt.';
+      }else{
+        hint.textContent='No problem — you can install whenever you are ready.';
+      }
+      installPrompt=null;
+      return;
+    }
+    hint.textContent='If no install prompt appears, open Chrome’s ⋮ menu and tap “Install app”. If this button does not launch it, your browser has not made the install prompt available yet.';
+  });
+})();
 </script>
 </body>
 </html>
